@@ -31,7 +31,6 @@ jobs:
     - name: Clone project
       run: |
 
-        rm -rf project
         # 删除 jar/custom_spider.jar
         rm -rf jar/custom_spider.jar
         # 克隆 FongMi/CatVodSpider 仓库到 project 目录，并递归克隆子模块。
@@ -45,54 +44,53 @@ jobs:
 
         #sed -i 's/gradle-7.4.2-all/gradle-7.5-bin/g' gradle/wrapper/gradle-wrapper.properties
 
-        sed -i 's/www.wogg.net/www.wogg.link/g' app/src/main/java/com/github/catvod/spider/Wogg.java
-        sed -i 's/www.aliyundrive.com/(www.alipan.com|www.aliyundrive.com)/g' app/src/main/java/com/github/catvod/spider/Zhaozy.java
-        sed -i 's/api2.rinhome.com/112.124.0.131:20000/g' app/src/main/java/com/github/catvod/spider/Jianpian.java
+        # sed -i 's/www.wogg.net/www.wogg.link/g' app/src/main/java/com/github/catvod/spider/Wogg.java
+        # sed -i 's/www.aliyundrive.com/(www.alipan.com|www.aliyundrive.com)/g' app/src/main/java/com/github/catvod/spider/Zhaozy.java
+        # sed -i 's/api2.rinhome.com/112.124.0.131:20000/g' app/src/main/java/com/github/catvod/spider/Jianpian.java
         
-        # cp ../app/src/main/java/com/github/catvod/spider/Nongm.java app/src/main/java/com/github/catvod/spider/Nongm.java
-        # cp ../app/src/main/java/com/github/catvod/spider/FengGo.java app/src/main/java/com/github/catvod/spider/FengGo.java
-        cp ../app/src/main/java/com/github/catvod/spider/Ikanbot.java app/src/main/java/com/github/catvod/spider/Ikanbot.java
-        cp ../app/src/main/java/com/github/catvod/spider/Auete.java app/src/main/java/com/github/catvod/spider/Auete.java
-        # cp ../app/src/main/java/com/github/catvod/spider/ChangZhang.java app/src/main/java/com/github/catvod/spider/ChangZhang.java
+        # # cp ../app/src/main/java/com/github/catvod/spider/Nongm.java app/src/main/java/com/github/catvod/spider/Nongm.java
+        # # cp ../app/src/main/java/com/github/catvod/spider/FengGo.java app/src/main/java/com/github/catvod/spider/FengGo.java
+        # cp ../app/src/main/java/com/github/catvod/spider/Ikanbot.java app/src/main/java/com/github/catvod/spider/Ikanbot.java
+        # cp ../app/src/main/java/com/github/catvod/spider/Auete.java app/src/main/java/com/github/catvod/spider/Auete.java
+        # # cp ../app/src/main/java/com/github/catvod/spider/ChangZhang.java app/src/main/java/com/github/catvod/spider/ChangZhang.java
 
-        #增加zhixc爬虫
-        curl -L https://raw.githubusercontent.com/zhixc/CatVodTVSpider/main/app/src/main/java/com/github/catvod/spider/Anime1.java > app/src/main/java/com/github/catvod/spider/Anime1.java
-        #curl -L https://raw.githubusercontent.com/zhixc/CatVodTVSpider/main/app/src/main/java/com/github/catvod/spider/Live2Vod.java > app/src/main/java/com/github/catvod/spider/Live2Vod.java
-        #curl -L https://raw.githubusercontent.com/zhixc/CatVodTVSpider/main/app/src/main/java/com/github/catvod/spider/LocalFileV2.java > app/src/main/java/com/github/catvod/spider/LocalFileV2.java
-        #curl -L https://raw.githubusercontent.com/zhixc/CatVodTVSpider/main/app/src/main/java/com/github/catvod/spider/NongMing.java > app/src/main/java/com/github/catvod/spider/NongMing.java
-        #curl -L https://raw.githubusercontent.com/zhixc/CatVodTVSpider/main/app/src/main/java/com/github/catvod/spider/PiaoHua.java > app/src/main/java/com/github/catvod/spider/PiaoHua.java
-        #curl -L https://raw.githubusercontent.com/zhixc/CatVodTVSpider/main/app/src/main/java/com/github/catvod/spider/SP360.java > app/src/main/java/com/github/catvod/spider/SP360.java
-        #curl -L https://raw.githubusercontent.com/zhixc/CatVodTVSpider/main/app/src/main/java/com/github/catvod/spider/SixV.java > app/src/main/java/com/github/catvod/spider/SixV.java
-        #curl -L https://raw.githubusercontent.com/zhixc/CatVodTVSpider/main/app/src/main/java/com/github/catvod/spider/Voflix.java > app/src/main/java/com/github/catvod/spider/Voflix.java
-        #curl -L https://raw.githubusercontent.com/zhixc/CatVodTVSpider/main/app/src/main/java/com/github/catvod/spider/XingYiYing.java > app/src/main/java/com/github/catvod/spider/XingYiYing.java
-        #curl -L https://raw.githubusercontent.com/zhixc/CatVodTVSpider/main/app/src/main/java/com/github/catvod/spider/Yj1211.java > app/src/main/java/com/github/catvod/spider/Yj1211.java
-        #curl -L https://raw.githubusercontent.com/zhixc/CatVodTVSpider/main/app/src/main/java/com/github/catvod/spider/IQIYI.java > app/src/main/java/com/github/catvod/spider/IQIYI.java
-        #curl -L https://raw.githubusercontent.com/zhixc/CatVodTVSpider/main/app/src/main/java/com/github/catvod/spider/MGTV.java > app/src/main/java/com/github/catvod/spider/MGTV.java
-        #curl -L https://raw.githubusercontent.com/zhixc/CatVodTVSpider/main/app/src/main/java/com/github/catvod/spider/Cs1369.java > app/src/main/java/com/github/catvod/spider/Cs1369.java
-        #curl -L https://raw.githubusercontent.com/zhixc/CatVodTVSpider/main/app/src/main/java/com/github/catvod/spider/DyGang.java > app/src/main/java/com/github/catvod/spider/DyGang.java
-        #curl -L https://raw.githubusercontent.com/zhixc/CatVodTVSpider/main/app/src/main/java/com/github/catvod/spider/Xunlei8.java > app/src/main/java/com/github/catvod/spider/Xunlei8.java
-        #curl -L https://raw.githubusercontent.com/zhixc/CatVodTVSpider/main/app/src/main/java/com/github/catvod/spider/PushAgent.java > app/src/main/java/com/github/catvod/spider/PushAgent.java
+        # #增加zhixc爬虫
+        # curl -L https://raw.githubusercontent.com/zhixc/CatVodTVSpider/main/app/src/main/java/com/github/catvod/spider/Anime1.java > app/src/main/java/com/github/catvod/spider/Anime1.java
+        # #curl -L https://raw.githubusercontent.com/zhixc/CatVodTVSpider/main/app/src/main/java/com/github/catvod/spider/Live2Vod.java > app/src/main/java/com/github/catvod/spider/Live2Vod.java
+        # #curl -L https://raw.githubusercontent.com/zhixc/CatVodTVSpider/main/app/src/main/java/com/github/catvod/spider/LocalFileV2.java > app/src/main/java/com/github/catvod/spider/LocalFileV2.java
+        # #curl -L https://raw.githubusercontent.com/zhixc/CatVodTVSpider/main/app/src/main/java/com/github/catvod/spider/NongMing.java > app/src/main/java/com/github/catvod/spider/NongMing.java
+        # #curl -L https://raw.githubusercontent.com/zhixc/CatVodTVSpider/main/app/src/main/java/com/github/catvod/spider/PiaoHua.java > app/src/main/java/com/github/catvod/spider/PiaoHua.java
+        # #curl -L https://raw.githubusercontent.com/zhixc/CatVodTVSpider/main/app/src/main/java/com/github/catvod/spider/SP360.java > app/src/main/java/com/github/catvod/spider/SP360.java
+        # #curl -L https://raw.githubusercontent.com/zhixc/CatVodTVSpider/main/app/src/main/java/com/github/catvod/spider/SixV.java > app/src/main/java/com/github/catvod/spider/SixV.java
+        # #curl -L https://raw.githubusercontent.com/zhixc/CatVodTVSpider/main/app/src/main/java/com/github/catvod/spider/Voflix.java > app/src/main/java/com/github/catvod/spider/Voflix.java
+        # #curl -L https://raw.githubusercontent.com/zhixc/CatVodTVSpider/main/app/src/main/java/com/github/catvod/spider/XingYiYing.java > app/src/main/java/com/github/catvod/spider/XingYiYing.java
+        # #curl -L https://raw.githubusercontent.com/zhixc/CatVodTVSpider/main/app/src/main/java/com/github/catvod/spider/Yj1211.java > app/src/main/java/com/github/catvod/spider/Yj1211.java
+        # #curl -L https://raw.githubusercontent.com/zhixc/CatVodTVSpider/main/app/src/main/java/com/github/catvod/spider/IQIYI.java > app/src/main/java/com/github/catvod/spider/IQIYI.java
+        # #curl -L https://raw.githubusercontent.com/zhixc/CatVodTVSpider/main/app/src/main/java/com/github/catvod/spider/MGTV.java > app/src/main/java/com/github/catvod/spider/MGTV.java
+        # #curl -L https://raw.githubusercontent.com/zhixc/CatVodTVSpider/main/app/src/main/java/com/github/catvod/spider/Cs1369.java > app/src/main/java/com/github/catvod/spider/Cs1369.java
+        # #curl -L https://raw.githubusercontent.com/zhixc/CatVodTVSpider/main/app/src/main/java/com/github/catvod/spider/DyGang.java > app/src/main/java/com/github/catvod/spider/DyGang.java
+        # #curl -L https://raw.githubusercontent.com/zhixc/CatVodTVSpider/main/app/src/main/java/com/github/catvod/spider/Xunlei8.java > app/src/main/java/com/github/catvod/spider/Xunlei8.java
+        # #curl -L https://raw.githubusercontent.com/zhixc/CatVodTVSpider/main/app/src/main/java/com/github/catvod/spider/PushAgent.java > app/src/main/java/com/github/catvod/spider/PushAgent.java
 
-        #增加mymine爬虫&smb
-        #curl -L https://raw.githubusercontent.com/mymine/CatVodTVSpider/main/app/src/main/java/com/github/catvod/spider/Smb4nas.java > app/src/main/java/com/github/catvod/spider/Smb4nas.java
-        #curl -L https://raw.githubusercontent.com/mymine/CatVodTVSpider/main/app/src/main/java/com/github/catvod/spider/SmbProxy.java > app/src/main/java/com/github/catvod/spider/SmbProxy.java
+        # #增加mymine爬虫&smb
+        # #curl -L https://raw.githubusercontent.com/mymine/CatVodTVSpider/main/app/src/main/java/com/github/catvod/spider/Smb4nas.java > app/src/main/java/com/github/catvod/spider/Smb4nas.java
+        # #curl -L https://raw.githubusercontent.com/mymine/CatVodTVSpider/main/app/src/main/java/com/github/catvod/spider/SmbProxy.java > app/src/main/java/com/github/catvod/spider/SmbProxy.java
 
-        #Douban用回旧版本
-        #curl -L https://raw.githubusercontent.com/zhixc/CatVodTVSpider/main/app/src/main/java/com/github/catvod/spider/Douban.java > app/src/main/java/com/github/catvod/spider/Douban.java
-        #curl -L https://raw.githubusercontent.com/qlql765/TVJar_by_zhixc/test/app/src/main/java/com/github/catvod/spider/Douban.java > app/src/main/java/com/github/catvod/spider/Douban.java
+        # #Douban用回旧版本
+        # #curl -L https://raw.githubusercontent.com/zhixc/CatVodTVSpider/main/app/src/main/java/com/github/catvod/spider/Douban.java > app/src/main/java/com/github/catvod/spider/Douban.java
+        # #curl -L https://raw.githubusercontent.com/qlql765/TVJar_by_zhixc/test/app/src/main/java/com/github/catvod/spider/Douban.java > app/src/main/java/com/github/catvod/spider/Douban.java
 
-        #增加xyzjhe爬虫
-        curl -L https://raw.githubusercontent.com/xyzjhe/test_jar/refs/heads/main/app/src/main/java/com/github/catvod/spider/Freeok.java > app/src/main/java/com/github/catvod/spider/Freeok.java
+        # #增加xyzjhe爬虫
+        # curl -L https://raw.githubusercontent.com/xyzjhe/test_jar/refs/heads/main/app/src/main/java/com/github/catvod/spider/Freeok.java > app/src/main/java/com/github/catvod/spider/Freeok.java
 
-        #简体化阿里云盘&alist&webdav
-        sed -i 's/預設/预设/g;s/名稱/名称/g;s/時間/时间/g' app/src/main/java/com/github/catvod/spider/AList.java
-        sed -i 's/預設/预设/g;s/名稱/名称/g;s/時間/时间/g' app/src/main/java/com/github/catvod/spider/WebDAV.java
-        sed -i 's/轉存原畫/转存原画/g;s/分享原畫/分享原画/g;s/代理普畫/代理普画/g' app/src/main/java/com/github/catvod/spider/Ali.java
-        sed -i 's/轉存原畫/转存原画/g;s/分享原畫/分享原画/g;s/代理普畫/代理普画/g;s/阿里雲盤/阿里云盘/g;s/請輸入Token/请輸入Token/g;s/請使用阿里雲盤 App 掃描二維碼/请使用阿里云盘 App 扫描二维码/g;s/來晚啦，該分享已失效/来晚了，木有了，换一个/g' app/src/main/java/com/github/catvod/api/AliYun.java
+        # #简体化阿里云盘&alist&webdav
+        # sed -i 's/預設/预设/g;s/名稱/名称/g;s/時間/时间/g' app/src/main/java/com/github/catvod/spider/AList.java
+        # sed -i 's/預設/预设/g;s/名稱/名称/g;s/時間/时间/g' app/src/main/java/com/github/catvod/spider/WebDAV.java
+        # sed -i 's/轉存原畫/转存原画/g;s/分享原畫/分享原画/g;s/代理普畫/代理普画/g' app/src/main/java/com/github/catvod/spider/Ali.java
+        # sed -i 's/轉存原畫/转存原画/g;s/分享原畫/分享原画/g;s/代理普畫/代理普画/g;s/阿里雲盤/阿里云盘/g;s/請輸入Token/请輸入Token/g;s/請使用阿里雲盤 App 掃描二維碼/请使用阿里云盘 App 扫描二维码/g;s/來晚啦，該分享已失效/来晚了，木有了，换一个/g' app/src/main/java/com/github/catvod/api/AliYun.java
 
         #删除垃圾爬虫
         rm -rf app/src/main/java/com/github/catvod/spider/Ali.java
-        rm -rf app/src/main/java/com/github/catvod/spider/Dm84.java
         rm -rf app/src/main/java/com/github/catvod/spider/Doll.java
         rm -rf app/src/main/java/com/github/catvod/spider/Eighteen.java
         rm -rf app/src/main/java/com/github/catvod/spider/Hanime.java
@@ -109,7 +107,6 @@ jobs:
         rm -rf app/src/main/java/com/github/catvod/spider/Wogg.java
         rm -rf app/src/main/java/com/github/catvod/spider/XiaoZhiTiao.java
         rm -rf app/src/main/java/com/github/catvod/spider/YiSo.java
-        rm -rf app/src/main/java/com/github/catvod/spider/Ysj.java
         rm -rf app/src/main/java/com/github/catvod/spider/Zhaozy.java
         rm -rf app/src/main/java/com/github/catvod/spider/JavDb.java
         rm -rf app/src/main/java/com/github/catvod/spider/Supjav.java
