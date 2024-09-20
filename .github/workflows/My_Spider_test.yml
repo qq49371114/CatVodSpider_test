@@ -41,7 +41,9 @@ jobs:
     - name: Customize Spider
       working-directory: ./project
       run: |
-        # sed -i 's/gradle-7.4.2-all/gradle-7.5-bin/g' gradle/wrapper/gradle-wrapper.properties
+
+
+        #sed -i 's/gradle-7.4.2-all/gradle-7.5-bin/g' gradle/wrapper/gradle-wrapper.properties
 
         sed -i 's/www.wogg.net/www.wogg.link/g' app/src/main/java/com/github/catvod/spider/Wogg.java
         sed -i 's/www.aliyundrive.com/(www.alipan.com|www.aliyundrive.com)/g' app/src/main/java/com/github/catvod/spider/Zhaozy.java
@@ -122,12 +124,14 @@ jobs:
         #  sed -i "/ali.detail/d" app/src/main/java/com/github/catvod/spider/Push.java
         #  sed -i "/\"ali\"/d;/return Ali/d" app/src/main/java/com/github/catvod/spider/Proxy.java
          
-        #  #删除Doll残留
+        ##删除Doll残留
         #  sed -i "/Doll/d" app/src/main/java/com/github/catvod/debug/MainActivity.java
 
     - name: Build the Jar
       working-directory: ./project
       run: |
+
+
         #  赋予 gradlew 文件可执行权限。
          chmod +x gradlew
         #  输出 Push.java 文件的内容。
@@ -138,6 +142,8 @@ jobs:
     - name: Customize Spider Jar
       working-directory: ./project
       run: |
+
+      
         #  删除 custom_spider.jar 文件。
         rm -rf jar/custom_spider.jar
         #  删除 META-INF 目录。
