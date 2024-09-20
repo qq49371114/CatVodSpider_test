@@ -133,7 +133,7 @@ jobs:
 
 
         #  赋予 gradlew 文件可执行权限。
-         chmod +x gradlew
+        chmod +x gradlew
         #  输出 Push.java 文件的内容。
         cat app/src/main/java/com/github/catvod/spider/Push.java
         #  使用 Gradle 构建项目，启用构建缓存、并行构建、守护进程和所有警告模式。
