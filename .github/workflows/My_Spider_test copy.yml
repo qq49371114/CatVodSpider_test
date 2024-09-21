@@ -57,7 +57,7 @@ jobs:
         rm -rf app/src/main/java/com/github/catvod/spider/javDb.java
         rm -rf app/src/main/java/com/github/catvod/spider/justLive.java
         rm -rf app/src/main/java/com/github/catvod/spider/Market.java
-        rm -rf app/src/main/java/com/github/catvod/spider/PTT.java
+        # rm -rf app/src/main/java/com/github/catvod/spider/PTT.java
         #删除阿里云盘
         rm -rf app/src/main/java/com/github/catvod/api
         rm -rf app/src/main/java/com/github/catvod/bean/ali
@@ -82,7 +82,7 @@ jobs:
         #  sed -i 's/import com.github.catvod.demo.utlis.okhttp.OkHttpUtil;/import com.github.catvod.utils.okhttp.OkHttpUtil;/g' app/src/main/java/com/github/catvod/spider/Auete.java
 
         #增加xyzjhe爬虫
-        curl -L https://raw.githubusercontent.com/xyzjhe/test_jar/refs/heads/main/app/src/main/java/com/github/catvod/spider/Freeok.java > app/src/main/java/com/github/catvod/spider/Freeok.java
+        # curl -L https://raw.githubusercontent.com/xyzjhe/test_jar/refs/heads/main/app/src/main/java/com/github/catvod/spider/Freeok.java > app/src/main/java/com/github/catvod/spider/Freeok.java
         curl -L https://raw.githubusercontent.com/Murphy08/CatVodSpider/refs/heads/main/app/src/main/java/com/github/catvod/spider/FreeOk.java > app/src/main/java/com/github/catvod/spider/Freeok.java
 
     - name: Build the Jar
