@@ -68,11 +68,11 @@ jobs:
          #删除Doll残留
          sed -i "/Doll/d" app/src/main/java/com/github/catvod/debug/MainActivity.java
 
-         #  #增加zhixc爬虫
-         #  curl -L https://raw.githubusercontent.com/zhixc/CatVodTVSpider/main/app/src/main/java/com/github/catvod/spider/Anime1.java > app/src/main/java/com/github/catvod/spider/Anime1.java
-         #  mkdir app/src/main/java/com/github/catvod/utils/okhttp
-         #  curl -L https://raw.githubusercontent.com/zhixc/CatVodTVSpider/main/app/src/main/java/com/github/catvod/utils/okhttp/OKCallBack.java > app/src/main/java/com/github/catvod/utils/okhttp/OKCallBack.java
-         #  curl -L https://raw.githubusercontent.com/zhixc/CatVodTVSpider/main/app/src/main/java/com/github/catvod/utils/okhttp/OkHttpUtil.java > app/src/main/java/com/github/catvod/utils/okhttp/OkHttpUtil.java
+         #增加zhixc爬虫
+         curl -L https://raw.githubusercontent.com/zhixc/CatVodTVSpider/main/app/src/main/java/com/github/catvod/spider/Anime1.java > app/src/main/java/com/github/catvod/spider/Anime1.java
+         mkdir app/src/main/java/com/github/catvod/utils/okhttp
+         curl -L https://raw.githubusercontent.com/zhixc/CatVodTVSpider/main/app/src/main/java/com/github/catvod/utils/okhttp/OKCallBack.java > app/src/main/java/com/github/catvod/utils/okhttp/OKCallBack.java
+         curl -L https://raw.githubusercontent.com/zhixc/CatVodTVSpider/main/app/src/main/java/com/github/catvod/utils/okhttp/OkHttpUtil.java > app/src/main/java/com/github/catvod/utils/okhttp/OkHttpUtil.java
 
          #  #增加drizzle888爬虫
          #  curl -L https://raw.githubusercontent.com/drizzle888/CatVodTVSpider/refs/heads/master/app/src/main/java/com/github/catvod/spider/Auete.java > app/src/main/java/com/github/catvod/spider/Auete.java
