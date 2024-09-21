@@ -78,6 +78,7 @@ jobs:
 
          #增加drizzle888爬虫
          curl -L https://raw.githubusercontent.com/supermeguo/CatVodTvJarTest/refs/heads/master/app/src/main/java/com/github/catvod/spider/Auete.java > app/src/main/java/com/github/catvod/spider/Auete.java
+         sed -i 's/import com.github.catvod.demo.utlis.okhttp.OkHttpUtil;/import com.github.catvod.utlis.okhttp.OkHttpUtil;/g' app/src/main/java/com/github/catvod/spider/Auete.java
 
          #增加xyzjhe爬虫
          curl -L https://raw.githubusercontent.com/xyzjhe/test_jar/refs/heads/main/app/src/main/java/com/github/catvod/spider/Freeok.java > app/src/main/java/com/github/catvod/spider/Freeok.java
