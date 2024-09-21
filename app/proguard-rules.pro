@@ -40,3 +40,7 @@
     public static **[] values();
     public static ** valueOf(java.lang.String);
 }
+
+# rxhttp
+-dontwarn rxhttp.**
+-keep class rxhttp.**{*;}
