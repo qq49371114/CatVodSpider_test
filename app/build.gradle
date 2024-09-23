@@ -48,8 +48,4 @@ dependencies {
     implementation 'com.google.zxing:core:3.3.0'
     implementation 'com.orhanobut:logger:2.2.0'
     implementation 'org.jsoup:jsoup:1.15.3'
-    implementation ("com.github.liujingxing.rxhttp:rxhttp:2.6.5") {
-        exclude group: "com.squareup.okhttp3"
-    }
-    annotationProcessor "com.github.liujingxing.rxhttp:rxhttp-compiler:2.6.5"
 }
