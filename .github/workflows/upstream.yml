@@ -64,6 +64,15 @@ jobs:
           mv temp-dir/* temp-dir/.[^.]* .
           rm -rf temp-dir
         )
+        (
+          #增加zhixc爬虫
+          curl -L https://raw.githubusercontent.com/zhixc/CatVodTVSpider/main/app/src/main/java/com/github/catvod/spider/Anime1.java > app/src/main/java/com/github/catvod/spider/Anime1.java
+          mkdir app/src/main/java/com/github/catvod/utils/okhttp
+          curl -L https://raw.githubusercontent.com/zhixc/CatVodTVSpider/main/app/src/main/java/com/github/catvod/utils/okhttp/OkHttpUtil.java > app/src/main/java/com/github/catvod/utils/okhttp/OkHttpUtil.java
+          curl -L https://raw.githubusercontent.com/zhixc/CatVodTVSpider/main/app/src/main/java/com/github/catvod/utils/okhttp/OKCallBack.java > app/src/main/java/com/github/catvod/utils/okhttp/OKCallBack.java
+          curl -L https://raw.githubusercontent.com/zhixc/CatVodTVSpider/main/app/src/main/java/com/github/catvod/utils/okhttp/SSLSocketFactoryCompat.java > app/src/main/java/com/github/catvod/utils/SSLSocketFactoryCompat.java
+          curl -L https://raw.githubusercontent.com/zhixc/CatVodTVSpider/main/app/src/main/java/com/github/catvod/utils/okhttp/OKRequest.java > app/src/main/java/com/github/catvod/utils/okhttp/OKRequest.java
+        )
         
     - name: Apply 应用
       run: |
