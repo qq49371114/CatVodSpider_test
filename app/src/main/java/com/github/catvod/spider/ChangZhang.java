@@ -1,259 +1,521 @@
-package com.github.catvod.spider;/*
- * @File     : changzhang.js
- * @Author   : jade
- * @Date     : 2024/2/2 16:02
- * @Email    : jadehh@1ive.com
- * @Software : Samples
- * @Desc     :
- */
+package com.github.catvod.spider;
 
+import android.text.TextUtils;
+import android.util.Base64;
 
-import android.content.Context;
-
-import com.github.catvod.bean.Class;
-import com.github.catvod.bean.Filter;
-import com.github.catvod.bean.Result;
-import com.github.catvod.bean.Vod;
 import com.github.catvod.crawler.Spider;
-import com.github.catvod.net.OkHttp;
-import com.github.catvod.utils.AESEncryption;
-import com.github.catvod.utils.Notify;
-import com.github.catvod.utils.ProxyVideo;
-import com.github.catvod.utils.Util;
+import com.github.catvod.crawler.SpiderDebug;
+import com.github.catvod.utils.AES;
+import com.github.catvod.utils.CBC;
+import com.github.catvod.utils.gZip;
+import com.github.catvod.utils.okhttp.OKCallBack;
+import com.github.catvod.utils.okhttp.OkHttpUtil;
 
-import org.apache.commons.lang3.StringUtils;
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.StringReader;
+import java.net.URLEncoder;
+import java.security.MessageDigest;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import javax.crypto.Cipher;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
+import okhttp3.Call;
+import okhttp3.OkHttpClient;
+import okhttp3.Response;
+import okhttp3.ResponseBody;
+
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.math.BigInteger;
-import java.net.URI;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-public class ChangZhang extends Spider {
-
-    private String siteUrl = "https://www.czys.pro";
-
-    @Override
-    public void init(Context context, String extend) throws Exception {
-        super.init(context, extend);
-        Document doc = Jsoup.parse(OkHttp.string(extend));
-
-        siteUrl = doc.select("h2 > a").attr("href");
-
+public class Czsapp extends Spider {
+    private static final Pattern Y = Pattern.compile("\"([^\"]+)\";var [\\d\\w]+=function dncry.*md5.enc.Utf8.parse\\(\"([\\d\\w]+)\".*md5.enc.Utf8.parse\\(([\\d]+)\\)");
+    private static final Pattern pY = Pattern.compile("video: \\{url: \"([^\"]+)\"");
+    private static final Pattern m = Pattern.compile("subtitle: \\{url:\"([^\"]+\\.vtt)\"");
+    private static final Pattern Q = Pattern.compile("src: '([^']+\\.css)',");
+    private static final Pattern Db = Pattern.compile("/movie/(\\d+).html");
+    private static final Pattern I = Pattern.compile("/page/(\\d+)");
+    private static final Pattern d = Pattern.compile("/v_play/(.*)\\.html");
+    private static final Pattern K = Pattern.compile("var vkey = ['\"]([^'\"]+)['\"]");
+    private static final Pattern Oe = Pattern.compile("var fvkey = ['\"]([^'\"]+)['\"]");
+    private static final Pattern fi = Pattern.compile("var ua = ['\"]([^'\"]+)['\"]");
+    private static final Pattern M = Pattern.compile("var cip = ['\"]([^'\"]+)['\"]");
+    private static final Pattern X = Pattern.compile("var time = ['\"]([^'\"]+)['\"]");
+    private static final Pattern a = Pattern.compile("var url = ['\"]([^'\"]+)['\"]");
+    public JSONObject rule = null;
+    private String cookie="";
+    private static String btcookie="";
+    private static final String siteUrl = "https://www.czzy77.com";    
+    
+    protected String fetchUrl(String url) {
+        String html = OkHttpUtil.string(url, getHeaders(url));
+        html = this.jumpbtwaf(url, html);
+        return html.replaceAll("<!--.+?-->", "").replace("\r\n","").replace("\n","");  // 移除注释
     }
+    
+    protected String jumpbtwaf(String webUrl, String html) {
 
-    private Map<String, String> getHeader() {
-        Map<String, String> header = new HashMap<>();
-        header.put("Cookie", "myannoun=1; Hm_lvt_0653ba1ead8a9aabff96252e70492497=2718862211; Hm_lvt_06341c948291d8e90aac72f9d64905b3=2718862211; Hm_lvt_07305e6f6305a01dd93218c7fe6bc9c3=2718862211; Hm_lpvt_07305e6f6305a01dd93218c7fe6bc9c3=2718867254; Hm_lpvt_06341c948291d8e90aac72f9d64905b3=2718867254; Hm_lpvt_0653ba1ead8a9aabff96252e70492497=2718867254");
-        header.put("User-Agent", "Mozilla/5.0 (iPhone; CPU iPhone OS 16_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/100.0.4896.77 Mobile/15E148 Safari/604.1");
-        header.put("Connection", "keep-alive");
-        URI uri = URI.create(siteUrl);
-        header.put("Host", uri.getHost());
-        header.put("Referer", siteUrl + "/");
-        return header;
-    }
+        try {           
+            if (html.contains("检测中") && html.contains("跳转中") && html.contains("btwaf")) {
+                String btwaf = subContent(html, "btwaf=", "\"").get(0);
+                String bturl = webUrl + "?btwaf=" + btwaf;
 
-    private Map<String, String> getIframeHeader(String url) {
-        Map<String, String> header = new HashMap<>();
-        header.put("Cookie", "myannoun=1; Hm_lvt_0653ba1ead8a9aabff96252e70492497=2718862211; Hm_lvt_06341c948291d8e90aac72f9d64905b3=2718862211; Hm_lvt_07305e6f6305a01dd93218c7fe6bc9c3=2718862211; Hm_lpvt_07305e6f6305a01dd93218c7fe6bc9c3=2718867254; Hm_lpvt_06341c948291d8e90aac72f9d64905b3=2718867254; Hm_lpvt_0653ba1ead8a9aabff96252e70492497=2718867254");
-        header.put("User-Agent", Util.CHROME);
-        header.put("Connection", "keep-alive");
-        URI uri = URI.create(url);
-        header.put("Host", uri.getHost());
-        header.put("Sec-Fetch-Dest", "iframe");
-        header.put("sec-fetch-mode", "navigate");
-        header.put("Referer", siteUrl + "/");
-        return header;
-    }
+                Map<String, List<String>> cookies = new HashMap<>();
+                OkHttpUtil.string(bturl, getHeaders(webUrl), cookies);
+                for (Map.Entry<String, List<String>> entry : cookies.entrySet()) {
+                    if (entry.getKey().equals("set-cookie") || entry.getKey().equals("Set-Cookie")) {
+                        String btcookie = TextUtils.join(";", entry.getValue());
+                        if (!rule.has("header")) {
+                            rule.put("header", new JSONObject());
+                        }
+                        rule.getJSONObject("header").put("cookie", btcookie);
+                        break;
+                    }
+                }
+                html = fetchUrl(webUrl);
+            }
+            if (!html.contains("检测中") && !html.contains("btwaf")) {
+                return html;
+            }
 
-    private Map<String, String> getVideoHeader(String url) {
-        Map<String, String> header = new HashMap<>();
-
-        header.put("Accept", "*/*");
-        header.put("Accept-Language", "zh-CN,zh;q=0.9,en;q=0.8,zh-TW;q=0.7,de;q=0.6");
-        header.put("Cache-Control", "no-cache");
-        header.put("Connection", "keep-alive");
-        header.put("Pragma", "no-cache");
-        URI uri = URI.create(url);
-        header.put("Host", uri.getHost());
-        header.put("Sec-Fetch-Dest", "video");
-        header.put("Sec-Fetch-Mode", "no-cors");
-        header.put("Sec-Fetch-Site", "cross-site");
-        header.put("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36");
-       /* header.put("sec-ch-ua", "\"Chromium\";v=\"124\", \"Google Chrome\";v=\"124\", \"Not-A.Brand\";v=\"99\"");
-        header.put("sec-ch-ua-mobile", "?0");
-        header.put("sec-ch-ua-platform", "\"Windows\"");*/
-        return header;
-    }
-
-    @Override
-    public String homeContent(boolean filter) throws Exception {
-
-        List<Vod> list = new ArrayList<>();
-        List<Class> classes = new ArrayList<>();
-        LinkedHashMap<String, List<Filter>> filters = new LinkedHashMap<>();
-        Document doc = Jsoup.parse(OkHttp.string(siteUrl));
-
-        for (Element div : doc.select(".navlist > li ")) {
-            classes.add(new Class(div.select(" a").attr("href"), div.select(" a").text()));
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
-        getVods(list, doc);
-        return Result.string(classes, list);
+        return html;
+    }
+    
+    private ArrayList<String> subContent(String content, String startFlag, String endFlag) {
+        ArrayList<String> result = new ArrayList<>();
+        if (startFlag.isEmpty() && endFlag.isEmpty()) {
+            result.add(content);
+            return result;
+        }
+        try {
+            Pattern pattern = Pattern.compile(escapeExprSpecialWord(startFlag) + "(.*?)" + escapeExprSpecialWord(endFlag));
+            Matcher matcher = pattern.matcher(content);
+            while (matcher.find()) {
+                result.add(matcher.group(1));
+            }
+        } catch (Throwable th) {
+            th.printStackTrace();
+        }
+        return result;
+    }
+    public static String escapeExprSpecialWord(String keyword) {
+        if (!keyword.isEmpty()) {
+            String[] fbsArr = {"\\", "$", "(", ")", "*", "+", ".", "[", "]", "?", "^", "{", "}", "|"};
+            for (String key : fbsArr) {
+                if (keyword.contains(key)) {
+                    keyword = keyword.replace(key, "\\" + key);
+                }
+            }
+        }
+        return keyword;
     }
 
-    private void getVods(List<Vod> list, Document doc) {
-        for (Element div : doc.select(".bt_img.mi_ne_kd > ul >li")) {
-            String id = div.select(".dytit > a").attr("href");
-            String name = div.select(".dytit > a").text();
-            String pic = div.select("img").attr("data-original");
-            if (pic.isEmpty()) pic = div.select("img").attr("src");
-            String remark = div.select(".hdinfo > span").text();
-
-            list.add(new Vod(id, name, pic, remark));
+    
+    private String mmd5(String str) {
+        try {
+            MessageDigest messageDigest = MessageDigest.getInstance("MD5");
+            messageDigest.update(str.getBytes());
+            byte[] digest = messageDigest.digest();
+            StringBuilder sb = new StringBuilder();
+            for (byte b : digest) {
+                String hexString = Integer.toHexString(b & 255);
+                while (hexString.length() < 2) {
+                    hexString = "0" + hexString;
+                }
+                sb.append(hexString);
+            }
+            return sb.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "";
         }
     }
 
-    @Override
-    public String categoryContent(String tid, String pg, boolean filter, HashMap<String, String> extend) throws Exception {
-        List<Vod> list = new ArrayList<>();
-        String target = siteUrl + tid + "/page/" + pg;
-        //String filters = extend.get("filters");
-        String html = OkHttp.string(target);
-        Document doc = Jsoup.parse(html);
-        getVods(list, doc);
-        String total = "" + Integer.MAX_VALUE;
-        return Result.get().vod(list).page(Integer.parseInt(pg), Integer.parseInt(total) / 25 + 1, 25, Integer.parseInt(total)).string();
-    }
+    public static Object[] loadsub(String sub) {
+        try {
+            OKCallBack.OKCallBackDefault callBack = new OKCallBack.OKCallBackDefault() {
+                @Override
+                protected void onFailure(Call call, Exception e) {
 
-    @Override
-    public String detailContent(List<String> ids) throws Exception {
+                }
 
-        Document doc = Jsoup.parse(OkHttp.string(ids.get(0), getHeader()));
+                @Override
+                protected void onResponse(Response response) {
 
-        Elements sources = doc.select("div.paly_list_btn > a");
-        StringBuilder vod_play_url = new StringBuilder();
-        String vod_play_from = "厂长" + "$$$";
+                }
+            };
+            OkHttpClient YM = OkHttpUtil.defaultClient();
+            OkHttpUtil.get(YM, sub, null, Headers(), callBack);
+            Response result = callBack.getResult();
+            int code = result.code();
+            if (code == 404) {
+                return new Object[]{200, "application/octet-stream", new ByteArrayInputStream("WEBVTT".getBytes())};
+            }
+            ResponseBody body = result.body();
+            byte[] bytes = body.bytes();
+            byte[] tokenkey = Arrays.copyOfRange(bytes, 0, 16);
+            byte[] data = Arrays.copyOfRange(bytes, 16, bytes.length);
+            byte[] KS = CBC.CBC(data, tokenkey, tokenkey);
+            String vtt = gZip.KS(KS);
 
-        for (int i = 0; i < sources.size(); i++) {
-            String href = sources.get(i).attr("href");
-            String text = sources.get(i).text();
-            vod_play_url.append(text).append("$").append(href);
-            boolean notLastEpisode = i < sources.size() - 1;
-            vod_play_url.append(notLastEpisode ? "#" : "$$$");
+
+            vtt = vtt.replaceAll("(\\d{2}:\\d{2}:\\d{2}.\\d{3}.+\\d{2}:\\d{2}:\\d{2}.\\d{3}).*", "$1");
+            vtt = vtt.replaceAll("(\\d{2}:\\d{2}.\\d{3}).*?( --> )(\\d{2}:\\d{2}.\\d{3}).*", "00:$1$200:$3");
+            vtt = vtt.replaceAll("<.*><.*>(.*)<.*><.*>", "$1");
+            vtt = vtt.replaceAll("&(.*);", "");
+            vtt = vtt.replaceAll(".*NOTE.*", "");
+            BufferedReader br = new BufferedReader(new StringReader(vtt));
+            ArrayList<String> lines = new ArrayList<>();
+            int captionNumber = 1;
+            String line = br.readLine();
+            while (line != null) {
+                if (line.matches("\\d{2}:\\d{2}:\\d{2}.\\d{3}.+\\d{2}:\\d{2}:\\d{2}.\\d{3}")) {
+                    if (lines.get(lines.size() - 1).trim().isEmpty()) {
+                        lines.add(captionNumber + "");
+                        captionNumber++;
+                    }
+                }
+                lines.add(line);
+                line = br.readLine();
+            }
+            String join = TextUtils.join("\n", lines);
+
+            return new Object[]{200, "application/octet-stream", new ByteArrayInputStream(join.getBytes())};
+        } catch (Exception e) {
+            e.printStackTrace();
+            SpiderDebug.log(e);
+            return null;
         }
-
-        String title = doc.select(" div.dytext.fl > div > h1").text();
-        String classifyName = doc.select(".moviedteail_list > li:nth-child(1)  > a").text();
-        String year = doc.select(".moviedteail_list > li:nth-child(3)  > a").text();
-        String area = doc.select(".moviedteail_list > li:nth-child(2)  > a").text();
-        String remark = doc.select(".yp_context").text();
-        String vodPic = doc.select(" div.dyxingq > div > div.dyimg.fl > img").attr("src");
-
-        String director = doc.select(".moviedteail_list > li:nth-child(6)  > a").text();
-
-        String actor = doc.select(".moviedteail_list > li:nth-child(8)  > a").text();
-
-        String brief = doc.select(".yp_context").text();
-        Vod vod = new Vod();
-        vod.setVodId(ids.get(0));
-        vod.setVodYear(year);
-        vod.setVodName(title);
-        vod.setVodArea(area);
-        vod.setVodActor(actor);
-        vod.setVodPic(vodPic);
-        vod.setVodRemarks(remark);
-        vod.setVodContent(brief);
-        vod.setVodDirector(director);
-        vod.setTypeName(classifyName);
-        vod.setVodPlayFrom(vod_play_from);
-        vod.setVodPlayUrl(vod_play_url.toString());
-        return Result.string(vod);
     }
 
-    @Override
-    public String searchContent(String key, boolean quick) throws Exception {
-        String searchUrl = siteUrl + "/daoyongjiekoshibushiyoubing?q=";
-        String html = OkHttp.string(searchUrl + key);
-        if (html.contains("Just a moment")) {
-            Notify.show("厂长资源需要人机验证");
+    public String categoryContent(String str, String str2, boolean z, HashMap<String, String> hashMap) {
+        try {
+            JSONObject jSONObject = new JSONObject();
+            Document doc = Jsoup.parse(OkHttpUtil.string("https://www.czzy77.com/" + str + "/page/" + str2, Headers()));
+            int parseInt = Integer.parseInt(str2);
+            int parseInt2 = Integer.parseInt(str2);
+                Matcher matcher = I.matcher(doc.select("div.pagenavi_txt > a.extend").last().attr("href"));
+            if (matcher.find()) {
+                parseInt2 = Integer.parseInt(matcher.group(1));
+            }
+            Elements jS = doc.select("div.mi_ne_kd > ul > li");
+            JSONArray jSONArray = new JSONArray();
+            for (Element next : jS) {
+                Matcher matcher2 = Db.matcher(next.select("a").attr("href"));
+                if (matcher2.find()) {
+                    String group = matcher2.group(1);
+                    String trim = next.select("img").attr("alt").trim();
+                    String trim2 = next.select("img").attr("data-original").trim();
+                    String trim3 = next.select("div.hdinfo > span").text().trim();
+                    JSONObject jSONObject2 = new JSONObject();
+                    jSONObject2.put("vod_id", group);
+                    jSONObject2.put("vod_name", trim);
+                    jSONObject2.put("vod_pic", trim2);
+                    jSONObject2.put("vod_remarks", trim3);
+                    jSONArray.put(jSONObject2);
+                }
+            }
+            jSONObject.put("list", jSONArray);
+            jSONObject.put("page", parseInt);
+            jSONObject.put("pagecount", parseInt2);
+            jSONObject.put("limit", 24);
+            jSONObject.put("total", parseInt2 <= 1 ? jSONArray.length() : parseInt2 * 24);
+            return jSONObject.toString();
+        } catch (Exception e) {
+            SpiderDebug.log(e);
+            return "";
         }
-        Document document = Jsoup.parse(html);
-        List<Vod> list = new ArrayList<>();
-        getVods(list, document);
-
-        return Result.string(list);
     }
 
+    public String detailContent(List<String> list) {
+        String str2 = "";
+        try {
 
-    @Override
-    public String playerContent(String flag, String id, List<String> vipFlags) throws Exception {
-        String content = OkHttp.string(id, getHeader());
-        Document document = Jsoup.parse(content);
-        Elements iframe = document.select("iframe");
-        if (!iframe.isEmpty()) {
-            String videoContent = OkHttp.string(iframe.get(0).attr("src"), getIframeHeader(iframe.get(0).attr("src")));
+            JSONObject jSONObject = new JSONObject();
+            JSONArray jSONArray = new JSONArray();
+            JSONObject jSONObject2 = new JSONObject();
+            Document doc = Jsoup.parse(OkHttpUtil.string("https://www.czzy77.com/movie/" + list.get(0) + ".html", Headers()));
+            String trim = doc.select("div.moviedteail_tt > h1").text().trim();
+            String pY2 = doc.select("div.dyimg > img").attr("src");
+            Iterator<Element> it = doc.select("ul.moviedteail_list > li").iterator();
+            String str3 = str2;
+            String str4 = str3;
+            String str5 = str4;
+            String str6 = str5;
+            String str7 = str6;
+            String str8 = str7;
+            while (it.hasNext()) {
+                String trim2 = it.next().text().trim();
+                if (trim2.length() >= 4) {
+                    try {
+                        String substring = trim2.substring(0, 2);
+                        String substring2 = trim2.substring(3);
+                        if (substring.equals("类型")) {
+                            str3 = substring2;
+                        } else if (substring.equals("地区")) {
+                            str5 = substring2;
+                        } else if (substring.equals("年份")) {
+                            str4 = substring2;
+                        } else if (substring.equals("导演")) {
+                            str8 = substring2;
+                        } else if (substring.equals("主演")) {
+                            str7 = substring2;
+                        } else if (substring.equals("豆瓣")) {
+                            str6 = substring2;
+                        }
+                    } catch (Exception e) {
+                        SpiderDebug.log(e);
+                    }
+                }
+            }
+            jSONObject2.put("vod_id", list.get(0));
+            jSONObject2.put("vod_name", trim);
+            jSONObject2.put("vod_pic", pY2);
+            jSONObject2.put("type_name", str3);
+            jSONObject2.put("vod_year", str4);
+            jSONObject2.put("vod_area", str5);
+            jSONObject2.put("vod_remarks", str6);
+            jSONObject2.put("vod_actor", str7);
+            jSONObject2.put("vod_director", str8);
+            jSONObject2.put("vod_content", doc.select("div.yp_context").text().trim());
+            jSONObject2.put("vod_play_from", "厂长资源");
+            ArrayList arrayList = new ArrayList();
+            for (Element next : doc.select("div.paly_list_btn > a")) {
+                Matcher matcher = d.matcher(next.attr("href"));
+                if (matcher.find()) {
+                    arrayList.add(next.text() + "$" + matcher.group(1));
+                }
+            }
+            jSONObject2.put("vod_play_url", TextUtils.join("#", arrayList));
+            jSONArray.put(jSONObject2);
+            jSONObject.put("list", jSONArray);
+            return jSONObject.toString();
+        } catch (Exception e3) {
+        }return "";
+    }
 
+    public String homeContent(boolean z) {
+        try {
+            String html=OkHttpUtil.string(siteUrl, getHeaders(siteUrl));
+            html=jumpbtwaf(siteUrl,html);
 
-            Matcher matcher2 = Pattern.compile("result_v2 =(.*?);").matcher(videoContent);
-            String json2 = matcher2.find() ? matcher2.group(1) : "";
-            org.json.JSONObject jsonObject = new JSONObject(json2);
-            String encodedStr = jsonObject.getString("data");
-            String realUrl = new String(new BigInteger(StringUtils.reverse(encodedStr), 16).toByteArray());
+           JSONObject jSONObject = new JSONObject();
+            Document doc = Jsoup.parse(html);
+          // Document doc = Jsoup.parse(OkHttpUtil.string("https://www.czzy77.com", Headers()));
+            Elements jS = doc.select(".navlist > li > a");
+            JSONArray jSONArray = new JSONArray();
+            for (Element next : jS) {
+                String pY2 = next.attr("href");
+                if (pY2.length() > 1) {
+                    String substring = pY2.substring(1);
+                    String trim = next.text().trim();
+                    JSONObject jSONObject2 = new JSONObject();
+                    jSONObject2.put("type_id", substring);
+                    jSONObject2.put("type_name", trim);
+                    jSONArray.put(jSONObject2);
+                }
+            }
+            jSONObject.put("class", jSONArray);
+            Elements jS2 = doc.select("div.mi_ne_kd > ul > li");
+            JSONArray jSONArray2 = new JSONArray();
+            for (Element next2 : jS2) {
+                Matcher matcher = Db.matcher(next2.select("a").attr("href"));
+                if (matcher.find()) {
+                    String group = matcher.group(1);
+                    String trim2 = next2.select("img").attr("alt").trim();
+                    String trim3 = next2.select("img").attr("data-original").trim();
+                    String trim4 = next2.select("div.hdinfo > span").text().trim();
+                    JSONObject jSONObject3 = new JSONObject();
+                    jSONObject3.put("vod_id", group);
+                    jSONObject3.put("vod_name", trim2);
+                    jSONObject3.put("vod_pic", trim3);
+                    jSONObject3.put("vod_remarks", trim4);
+                    jSONArray2.put(jSONObject3);
+                }
+            }
+            jSONObject.put("list", jSONArray2);
+            return jSONObject.toString();
+        } catch (Exception e) {
+            SpiderDebug.log(e);
+            return "";
+        }
+    }
 
-            String temp = decodeStr(realUrl);
-            Map<String, String> header = getVideoHeader(temp);
-            return Result.get().url(ProxyVideo.buildCommonProxyUrl(temp, header)).string();
-        } else {
-            for (Element script : document.select("script")) {
-                String scriptText = script.html();
-                if (scriptText.contains("wp_nonce")) {
-                    String reg = "var(.*?)=\"(.*?)\"";
-                    Pattern pattern = Pattern.compile(reg);
-                    Matcher matcher = pattern.matcher(scriptText);
+    protected static HashMap<String, String> Headers() {
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.75 Safari/537.36");
+        hashMap.put("Cookie", btcookie);
+        return hashMap;
+    }
 
-                    if (matcher.find()) {
-                        String data = matcher.group(2);
-                        String result = dncry(data);
-                        String regex = "url:.*?['\"](.*?)['\"]";
-                        Pattern pattern1 = Pattern.compile(regex);
-                        Matcher matcher1 = pattern1.matcher(result);
-                        if (matcher1.find()) {
-                            String playUrl = matcher1.group(0).replace("\"", "").replace("url:", "").trim();
-                            return Result.get().url(playUrl).string();
+    protected HashMap<String, String> getHeaders(String url) {
+        HashMap<String, String> headers = new HashMap<>();
+        headers.put("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Safari/537.36");
+     //   headers.put("Cookie", btcookie);
+        return headers;
+    }
+    public String playerContent(String str, String str2, List<String> list) {
+        String str3;
+        String str4;
+        Elements G8;
+        try {
+            String html = OkHttpUtil.string(siteUrl + "/v_play/" + str2 + ".html", Headers());
+            html = jumpbtwaf(siteUrl,html);
+           
+           Document UR = Jsoup.parse(html);
+//            String K2 = OkHttpUtil.string("https://www.czzy77.com/v_play/" + str2 + ".html", Headers());
+//            Document UR = Jsoup.parse(K2);
+ //           Matcher matcher = Y.matcher(K2);
+            Matcher matcher = Y.matcher(html);
+            if (matcher.find()) {
+                String group = matcher.group(1);
+                String KEY = matcher.group(2);
+                String IV = matcher.group(3);
+                String str5 = AES.CBC(group, KEY, IV);
+                Matcher matcher2 = pY.matcher(str5);
+                str3 = matcher2.find() ? matcher2.group(1) : "";
+                Matcher matcher3 = m.matcher(str5);
+                str4 = matcher3.find() ? matcher3.group(1) : "";
+            } else {
+                str4 = "";
+                str3 = str4;
+            }
+            if (TextUtils.isEmpty(str3) && (G8 = UR.select("iframe.viframe")) != null) {
+                String pY2 = G8.attr("src");
+                if (pY2.contains("jx.xmflv.com")) {
+                    String K3 = OkHttpUtil.string(pY2, Headers());
+                    Matcher matcher4 = X.matcher(K3);
+                    if (!matcher4.find()) {
+                        return "";
+                    }
+                    String group2 = matcher4.group(1);
+                    Matcher matcher5 = a.matcher(K3);
+                    if (!matcher5.find()) {
+                        return "";
+                    }
+                    String group3 = matcher5.group(1);
+                    String K4 = OkHttpUtil.string("https://jx.xmflv.com/player.php?time=" + group2 + "&url=" + group3, Headers());
+                    Matcher matcher6 = K.matcher(K4);
+                    if (!matcher6.find()) {
+                        return "";
+                    }
+                    String group4 = matcher6.group(1);
+                    Matcher matcher7 = Oe.matcher(K4);
+                    if (!matcher7.find()) {
+                        return "";
+                    }
+                    String group5 = matcher7.group(1);
+                    Matcher matcher8 = fi.matcher(K4);
+                    if (!matcher8.find()) {
+                        return "";
+                    }
+                    String group6 = matcher8.group(1);
+                    Matcher matcher9 = M.matcher(K4);
+                    if (!matcher9.find()) {
+                        return "";
+                    }
+                    String group7 = matcher9.group(1);
+                    Matcher matcher10 = X.matcher(K4);
+                    if (!matcher10.find()) {
+                        return "";
+                    }
+                    String group8 = matcher10.group(1);
+                    byte[] bytes3 = mmd5(group5).getBytes();
+                    byte[] bytes4 = "UVE1NTY4MDY2NQ==".getBytes();
+                    Cipher cipher2 = Cipher.getInstance("AES/CBC/NoPadding");
+                    cipher2.init(1, new SecretKeySpec(bytes3, "AES"), new IvParameterSpec(bytes4));
+                    String encodeToString = Base64.encodeToString(cipher2.doFinal(group5.getBytes()), 0);
+                    OKCallBack.OKCallBackDefault callBack = new OKCallBack.OKCallBackDefault() {
+
+                        public void onResponse(Response response) {
+                        }
+
+                        @Override
+                        protected void onFailure(Call call, Exception exc) {
+                        }
+                    };
+                    HashMap hashMap = new HashMap();
+                    hashMap.put("url", group3);
+                    hashMap.put("time", group8);
+                    hashMap.put("ua", group6);
+                    hashMap.put("cip", group7);
+                    hashMap.put("vkey", group4);
+                    hashMap.put("fvkey", encodeToString);
+                    OkHttpUtil.post(OkHttpUtil.defaultClient(), "https://jx.xmflv.com/xmflv-1.SVG", hashMap, Headers(), callBack);
+                    str3 = new JSONObject(callBack.getResult().body().string()).getString("url");
+                } else {
+                    Matcher matcher11 = Q.matcher(OkHttpUtil.string(pY2, Headers()));
+                    if (matcher11.find()) {
+                        str3 = matcher11.group(1);
+                    }
+                }
+            }
+            JSONObject jSONObject = new JSONObject();
+            jSONObject.put("parse", "0");
+            jSONObject.put("playUrl", "");
+            jSONObject.put("url", str3);
+            jSONObject.put("header", "");
+            if (!TextUtils.isEmpty(str4)) {
+                jSONObject.put("subf", "/vtt/utf-8");
+                jSONObject.put("subt", Proxy.localProxyUrl() + "?do=czspp&url=" + URLEncoder.encode(str4));
+            }
+            return jSONObject.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+            SpiderDebug.log(e);
+            return "";
+        }
+    }
+
+    public String searchContent(String str, boolean z) {
+        try {
+            JSONObject jSONObject = new JSONObject();
+            Elements jS = Jsoup.parse(OkHttpUtil.string("https://menglv.serv00.net/czzysearch.php?wd=" + URLEncoder.encode(str), Headers())).select("div.mi_ne_kd > ul > li");
+            JSONArray jSONArray = new JSONArray();
+            for (Element next : jS) {
+                Matcher matcher = Db.matcher(next.select("a").attr("href"));
+                JSONObject jSONObject2 = new JSONObject();
+                if (matcher.find()) {
+                    String group = matcher.group(1);
+                    String trim = next.select("img").attr("alt").trim();
+                    if (trim.contains(str)) {
+                        String trim2 = next.select("img").attr("src").trim();
+                        if (next.hasClass(".jidi")) {
+                            String remark = next.select(".jidi span").text();
+                            jSONObject2.put("vod_remarks", remark);
+                        } else {
+                            String id = next.select("a").attr("href");
+                            Document doc = Jsoup.parse(OkHttpUtil.string(id, Headers()));
+                            String remark = doc.select("ul.moviedteail_list li span").get(0).text();
+                            jSONObject2.put("vod_id", group);
+                            jSONObject2.put("vod_name", trim);
+                            jSONObject2.put("vod_pic", trim2);
+                            jSONObject2.put("vod_remarks", remark);
+                            jSONArray.put(jSONObject2);
                         }
                     }
                 }
-
             }
+            jSONObject.put("list", jSONArray);
+            return jSONObject.toString();
+        } catch (Exception e) {
+            SpiderDebug.log(e);
+            return "";
         }
-        return null;
     }
 
-    String dncry(String data) {
-        String kc8a64 = "336460fdcb76a597";
-        String iv = "1234567890983456";
-
-        return AESEncryption.decrypt(data, kc8a64, iv);
     }
-
-    ;
-
-    String decodeStr(String _0x267828) {
-        int _0x5cd2b5 = (_0x267828.length() - 7) / 2;
-        String _0x2191ed = _0x267828.substring(0, _0x5cd2b5);
-        String _0x35a256 = _0x267828.substring(_0x5cd2b5 + 7);
-        return _0x2191ed + _0x35a256;
-    }
-
-
-}
