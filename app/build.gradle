@@ -49,4 +49,7 @@ dependencies {
     implementation 'com.orhanobut:logger:2.2.0'
     implementation 'org.jsoup:jsoup:1.15.3'
     implementation 'cn.hutool:hutool-all:5.8.27'
+    implementation 'io.ktor:ktor-server-core:2.3.7'
+    implementation 'io.ktor:ktor-client-core:2.3.7'
+    implementation 'io.ktor:ktor-client-cio:2.3.7'
 }
