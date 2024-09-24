@@ -8,39 +8,90 @@ package com.github.catvod.spider;/*
  */
 
 
-import cn.hutool.crypto.Mode;
-import cn.hutool.crypto.Padding;
-import cn.hutool.crypto.symmetric.AES;
-import cn.hutool.json.JSONObject;
-import cn.hutool.json.JSONUtil;
+import android.content.Context;
+
 import com.github.catvod.bean.Class;
 import com.github.catvod.bean.Filter;
 import com.github.catvod.bean.Result;
 import com.github.catvod.bean.Vod;
 import com.github.catvod.crawler.Spider;
-import com.github.catvod.crawler.SpiderDebug;
 import com.github.catvod.net.OkHttp;
-import com.github.catvod.utils.Json;
-import com.github.catvod.utils.Utils;
+import com.github.catvod.utils.AESEncryption;
+import com.github.catvod.utils.Notify;
+import com.github.catvod.utils.ProxyVideo;
+import com.github.catvod.utils.Util;
+
 import org.apache.commons.lang3.StringUtils;
+import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.math.BigInteger;
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ChangZhang extends Spider {
 
-    private final String siteUrl = "https://www.czys.pro";
+    private String siteUrl = "https://www.czys.pro";
+
+    @Override
+    public void init(Context context, String extend) throws Exception {
+        super.init(context, extend);
+        Document doc = Jsoup.parse(OkHttp.string(extend));
+
+        siteUrl = doc.select("h2 > a").attr("href");
+
+    }
 
     private Map<String, String> getHeader() {
         Map<String, String> header = new HashMap<>();
         header.put("Cookie", "myannoun=1; Hm_lvt_0653ba1ead8a9aabff96252e70492497=2718862211; Hm_lvt_06341c948291d8e90aac72f9d64905b3=2718862211; Hm_lvt_07305e6f6305a01dd93218c7fe6bc9c3=2718862211; Hm_lpvt_07305e6f6305a01dd93218c7fe6bc9c3=2718867254; Hm_lpvt_06341c948291d8e90aac72f9d64905b3=2718867254; Hm_lpvt_0653ba1ead8a9aabff96252e70492497=2718867254");
         header.put("User-Agent", "Mozilla/5.0 (iPhone; CPU iPhone OS 16_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/100.0.4896.77 Mobile/15E148 Safari/604.1");
         header.put("Connection", "keep-alive");
-        header.put("Host", "www.czys.pro");
+        URI uri = URI.create(siteUrl);
+        header.put("Host", uri.getHost());
+        header.put("Referer", siteUrl + "/");
+        return header;
+    }
+
+    private Map<String, String> getIframeHeader(String url) {
+        Map<String, String> header = new HashMap<>();
+        header.put("Cookie", "myannoun=1; Hm_lvt_0653ba1ead8a9aabff96252e70492497=2718862211; Hm_lvt_06341c948291d8e90aac72f9d64905b3=2718862211; Hm_lvt_07305e6f6305a01dd93218c7fe6bc9c3=2718862211; Hm_lpvt_07305e6f6305a01dd93218c7fe6bc9c3=2718867254; Hm_lpvt_06341c948291d8e90aac72f9d64905b3=2718867254; Hm_lpvt_0653ba1ead8a9aabff96252e70492497=2718867254");
+        header.put("User-Agent", Util.CHROME);
+        header.put("Connection", "keep-alive");
+        URI uri = URI.create(url);
+        header.put("Host", uri.getHost());
+        header.put("Sec-Fetch-Dest", "iframe");
+        header.put("sec-fetch-mode", "navigate");
+        header.put("Referer", siteUrl + "/");
+        return header;
+    }
+
+    private Map<String, String> getVideoHeader(String url) {
+        Map<String, String> header = new HashMap<>();
+
+        header.put("Accept", "*/*");
+        header.put("Accept-Language", "zh-CN,zh;q=0.9,en;q=0.8,zh-TW;q=0.7,de;q=0.6");
+        header.put("Cache-Control", "no-cache");
+        header.put("Connection", "keep-alive");
+        header.put("Pragma", "no-cache");
+        URI uri = URI.create(url);
+        header.put("Host", uri.getHost());
+        header.put("Sec-Fetch-Dest", "video");
+        header.put("Sec-Fetch-Mode", "no-cors");
+        header.put("Sec-Fetch-Site", "cross-site");
+        header.put("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36");
+       /* header.put("sec-ch-ua", "\"Chromium\";v=\"124\", \"Google Chrome\";v=\"124\", \"Not-A.Brand\";v=\"99\"");
+        header.put("sec-ch-ua-mobile", "?0");
+        header.put("sec-ch-ua-platform", "\"Windows\"");*/
         return header;
     }
 
@@ -57,7 +108,6 @@ public class ChangZhang extends Spider {
         }
 
         getVods(list, doc);
-        SpiderDebug.log("++++++++++++厂长-homeContent" + Json.toJson(list));
         return Result.string(classes, list);
     }
 
@@ -80,23 +130,19 @@ public class ChangZhang extends Spider {
         //String filters = extend.get("filters");
         String html = OkHttp.string(target);
         Document doc = Jsoup.parse(html);
-        getVods(list,doc);
+        getVods(list, doc);
         String total = "" + Integer.MAX_VALUE;
-
-
-        SpiderDebug.log("++++++++++++厂长-categoryContent" + Json.toJson(list));
-        return Result.get().vod(list).page(Integer.parseInt(pg), Integer.parseInt(total) / 25 + ((Integer.parseInt(total) % 25) > 0 ? 1 : 0), 25, Integer.parseInt(total)).string();
+        return Result.get().vod(list).page(Integer.parseInt(pg), Integer.parseInt(total) / 25 + 1, 25, Integer.parseInt(total)).string();
     }
 
     @Override
     public String detailContent(List<String> ids) throws Exception {
 
-        SpiderDebug.log("++++++++++++厂长-detailContent--args" + Json.toJson(ids));
         Document doc = Jsoup.parse(OkHttp.string(ids.get(0), getHeader()));
 
         Elements sources = doc.select("div.paly_list_btn > a");
         StringBuilder vod_play_url = new StringBuilder();
-        StringBuilder vod_play_from = new StringBuilder("厂长").append("$$$");
+        String vod_play_from = "厂长" + "$$$";
 
         for (int i = 0; i < sources.size(); i++) {
             String href = sources.get(i).attr("href");
@@ -129,9 +175,8 @@ public class ChangZhang extends Spider {
         vod.setVodContent(brief);
         vod.setVodDirector(director);
         vod.setTypeName(classifyName);
-        vod.setVodPlayFrom(vod_play_from.toString());
+        vod.setVodPlayFrom(vod_play_from);
         vod.setVodPlayUrl(vod_play_url.toString());
-        SpiderDebug.log("++++++++++++厂长-detailContent" + Json.toJson(vod));
         return Result.string(vod);
     }
 
@@ -140,13 +185,12 @@ public class ChangZhang extends Spider {
         String searchUrl = siteUrl + "/daoyongjiekoshibushiyoubing?q=";
         String html = OkHttp.string(searchUrl + key);
         if (html.contains("Just a moment")) {
-            Utils.notify("厂长资源需要人机验证");
+            Notify.show("厂长资源需要人机验证");
         }
         Document document = Jsoup.parse(html);
         List<Vod> list = new ArrayList<>();
         getVods(list, document);
 
-        SpiderDebug.log("++++++++++++厂长-searchContent" + Json.toJson(list));
         return Result.string(list);
     }
 
@@ -156,37 +200,60 @@ public class ChangZhang extends Spider {
         String content = OkHttp.string(id, getHeader());
         Document document = Jsoup.parse(content);
         Elements iframe = document.select("iframe");
-        String videoContent = OkHttp.string(iframe.get(0).attr("src"));
-        document = Jsoup.parse(videoContent);
-        Elements script = document.select("script");
-        String rand = "";
-        String player = "";
-        for (Element element : script) {
-            if (StringUtils.isNoneBlank(element.data())) {
-                rand = Utils.getVar(element.data(), "rand");
-                player = Utils.getVar(element.data(), "player");
+        if (!iframe.isEmpty()) {
+            String videoContent = OkHttp.string(iframe.get(0).attr("src"), getIframeHeader(iframe.get(0).attr("src")));
+
+
+            Matcher matcher2 = Pattern.compile("result_v2 =(.*?);").matcher(videoContent);
+            String json2 = matcher2.find() ? matcher2.group(1) : "";
+            org.json.JSONObject jsonObject = new JSONObject(json2);
+            String encodedStr = jsonObject.getString("data");
+            String realUrl = new String(new BigInteger(StringUtils.reverse(encodedStr), 16).toByteArray());
+
+            String temp = decodeStr(realUrl);
+            Map<String, String> header = getVideoHeader(temp);
+            return Result.get().url(ProxyVideo.buildCommonProxyUrl(temp, header)).string();
+        } else {
+            for (Element script : document.select("script")) {
+                String scriptText = script.html();
+                if (scriptText.contains("wp_nonce")) {
+                    String reg = "var(.*?)=\"(.*?)\"";
+                    Pattern pattern = Pattern.compile(reg);
+                    Matcher matcher = pattern.matcher(scriptText);
+
+                    if (matcher.find()) {
+                        String data = matcher.group(2);
+                        String result = dncry(data);
+                        String regex = "url:.*?['\"](.*?)['\"]";
+                        Pattern pattern1 = Pattern.compile(regex);
+                        Matcher matcher1 = pattern1.matcher(result);
+                        if (matcher1.find()) {
+                            String playUrl = matcher1.group(0).replace("\"", "").replace("url:", "").trim();
+                            return Result.get().url(playUrl).string();
+                        }
+                    }
+                }
+
             }
         }
-
-        String videoInfo = cryptJs(player, "VFBTzdujpR9FWBhe", rand);
-        JSONObject jsonElement = JSONUtil.parseObj(videoInfo);
-        String realUrl = jsonElement.getStr("url");
-        SpiderDebug.log("++++++++++++厂长-playerContent" + Json.toJson(realUrl));
-
-        return Result.get().url(realUrl).header(getHeader()).string();
+        return null;
     }
 
+    String dncry(String data) {
+        String kc8a64 = "336460fdcb76a597";
+        String iv = "1234567890983456";
 
-    String cryptJs(String text, String key, String iv) {
-        byte[] key_value = key.getBytes(StandardCharsets.UTF_8);
-        byte[] iv_value = iv.getBytes(StandardCharsets.UTF_8);
-
-
-        AES aes = new AES(Mode.CBC, Padding.PKCS5Padding, key_value, iv_value);
-
-        String content = new String(aes.decrypt(text), StandardCharsets.UTF_8);
-
-        return content;
+        return AESEncryption.decrypt(data, kc8a64, iv);
     }
+
+    ;
+
+    String decodeStr(String _0x267828) {
+        int _0x5cd2b5 = (_0x267828.length() - 7) / 2;
+        String _0x2191ed = _0x267828.substring(0, _0x5cd2b5);
+        String _0x35a256 = _0x267828.substring(_0x5cd2b5 + 7);
+        return _0x2191ed + _0x35a256;
+    }
+
 
 }
