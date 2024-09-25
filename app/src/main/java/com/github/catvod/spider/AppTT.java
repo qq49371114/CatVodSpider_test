@@ -62,11 +62,7 @@ public class AppTT extends Spider {
 
     @Override
     public void init(Context context) {
-        try {
-           super.init(context);
-       } catch (Exception e) {
-           // 处理异常
-       }
+        super.init(context);
     }
 
     @Override
