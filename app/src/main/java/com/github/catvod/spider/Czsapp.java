@@ -471,7 +471,7 @@ public class Czsapp extends Spider {
             jSONObject.put("header", "");
             if (!TextUtils.isEmpty(str4)) {
                 jSONObject.put("subf", "/vtt/utf-8");
-                jSONObject.put("subt", Proxy.localProxyUrl() + "?do=czspp&url=" + URLEncoder.encode(str4));
+                jSONObject.put("subt", Proxy1.localProxyUrl() + "?do=czspp&url=" + URLEncoder.encode(str4));
             }
             return jSONObject.toString();
         } catch (Exception e) {
