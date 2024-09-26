@@ -18,6 +18,7 @@ import org.jsoup.select.Elements;
 import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
+import java.util.ArrayList;
 
 public class LIBVIO1 extends Spider {
 
