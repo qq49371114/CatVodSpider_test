@@ -3,7 +3,6 @@ package com.github.catvod.utils;
 import android.util.Base64;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.codec.binary.Base64;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -39,7 +38,7 @@ public class AESEncryption {
 
             byte[] encrypted = cipher.doFinal(word.getBytes("UTF-8"));
 
-            return org.apache.commons.codec.binary.Base64.encodeBase64String(encrypted);
+            return android.util.Base64.encode(encrypted, Base64.NO_WRAP);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -62,7 +61,7 @@ public class AESEncryption {
                 cipher.init(Cipher.DECRYPT_MODE, keySpec, ivSpec);
 
             }
-            byte[] decoded = org.apache.commons.codec.binary.Base64.decodeBase64(word);
+            byte[] decoded = android.util.Base64.decode(word, android.util.Base64.DEFAULT);
             byte[] decrypted = cipher.doFinal(decoded);
 
             return new String(decrypted, "UTF-8");
