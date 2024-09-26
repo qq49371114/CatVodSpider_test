@@ -181,7 +181,7 @@ public class Libvio2 extends Spider {
                 } else {
                     Vod.VodPlayBuilder.PlayUrl playUrl = new Vod.VodPlayBuilder.PlayUrl();
                     playUrl.name = element.text();
-                    playUrl.url = element.attr("href").replace("/play/", "");
+                    playUrl.url = siteUrl + element.attr("href");
                     playUrls.add(playUrl);
                 }
 
