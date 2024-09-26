@@ -38,7 +38,7 @@ public class AESEncryption {
 
             byte[] encrypted = cipher.doFinal(word.getBytes("UTF-8"));
 
-            return android.util.Base64.encode(encrypted, Base64.NO_WRAP);
+            return android.util.Base64.encodeToString(encrypted, Base64.NO_WRAP);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
