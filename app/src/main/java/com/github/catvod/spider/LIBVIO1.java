@@ -3,6 +3,10 @@ package com.github.catvod.spider;
 import com.github.catvod.crawler.Spider;
 import com.github.catvod.crawler.SpiderDebug;
 import com.github.catvod.utils.okhttp.OkHttpUtil;
+import com.github.catvod.bean.Vod;
+import com.github.catvod.bean.Class;
+import com.github.catvod.net.OkHttp;
+import com.github.catvod.bean.Result;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -17,7 +21,7 @@ import java.util.List;
 
 public class LIBVIO1 extends Spider {
 
-    private static final String siteUrl = "https://www.libvio.app";
+    private static final String siteUrl = "https://www.libvio.link";
 
     // 请求头部设置
     protected HashMap<String, String> getHeaders() {
@@ -27,36 +31,11 @@ public class LIBVIO1 extends Spider {
         return headers;
     }
 
-    @Override  
-    public void init(Context context, String extend) throws Exception {  
-        // 使用Gson解析JSON  
-        JsonElement json = Json.parse(extend);  
-
-        // 首先调用父类的init方法  
-        super.init(context, extend);  
-    
-        // 使用OkHttp获取HTML内容  
-        String html = OkHttp.string(json.getAsJsonObject().get("site").getAsString());
-        Document doc = Jsoup.parse(html);  
-    
-        // 查找包含"可用"的链接  
-        for (Element element : doc.select("a")) {  
-            if (element.text().contains("可用")) {  
-                siteUrl = element.attr("href");  
-                break;  
-            }  
-        }  
-    
-        // 记录日志  
-        SpiderDebug.log("libvio跳转地址 =====>" + siteUrl); // 注意这里记录的可能是初始的siteUrl，而不是找到的链接  
-    }
-
     /**
      * 首页内容
      * @param filter 是否开启筛选
      * @return
      */
-    @Override
     public String homeContent(boolean filter) throws Exception {
         List<Vod> list = new ArrayList<>();
         List<Class> classes = new ArrayList<>();
