@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Libvio extends Spider {
+public class Libvio2 extends Spider {
 
     private static String siteUrl = "https://www.libvio.link/";
 
