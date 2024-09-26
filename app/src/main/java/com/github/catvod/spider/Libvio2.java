@@ -176,7 +176,7 @@ public class Libvio2 extends Spider {
 
             Elements li = list.get(i).select("a");
             for (Element element : li) {
-                if (tabName.contains("夸克")) {
+                if (tabName.contains("下载")) {
                     // quarkList.add(element.attr("href"));
                 } else {
                     Vod.VodPlayBuilder.PlayUrl playUrl = new Vod.VodPlayBuilder.PlayUrl();
@@ -186,7 +186,7 @@ public class Libvio2 extends Spider {
                 }
 
             }
-            if (!tabName.contains("夸克")) {
+            if (!tabName.contains("下载")) {
                 builder.append(tabName, playUrls);
             }
         }
