@@ -94,6 +94,8 @@ jobs:
           sed -i 's#"5", ##g' app/src/main/java/com/github/catvod/spider/TvDy.java
           # curl -L https://raw.githubusercontent.com/lushunming/AndroidCatVodSpider/refs/heads/mine/app/src/main/java/com/github/catvod/spider/NCat.java > app/src/main/java/com/github/catvod/spider/NCat.java
           curl -L https://raw.githubusercontent.com/lushunming/AndroidCatVodSpider/refs/heads/mine/app/src/main/java/com/github/catvod/utils/ProxyVideo.java > app/src/main/java/com/github/catvod/utils/ProxyVideo.java
+          curl -L https://raw.githubusercontent.com/lushunming/AndroidCatVodSpider/refs/heads/mine/app/src/main/java/com/github/catvod/utils/Json.java > app/src/main/java/com/github/catvod/utils/Json.java
+          curl -L https://raw.githubusercontent.com/lushunming/AndroidCatVodSpider/refs/heads/mine/app/src/main/java/com/github/catvod/utils/Util.java > app/src/main/java/com/github/catvod/utils/Util.java
         )
         # (
         #   #增加zhixc爬虫
