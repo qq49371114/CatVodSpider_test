@@ -87,7 +87,6 @@ jobs:
         (
           #增加lushunming爬虫
           # curl -L https://raw.githubusercontent.com/lushunming/AndroidCatVodSpider/refs/heads/mine/app/src/main/java/com/github/catvod/spider/ChangZhang.java > app/src/main/java/com/github/catvod/spider/ChangZhang.java
-          # curl -L https://raw.githubusercontent.com/lushunming/AndroidCatVodSpider/refs/heads/mine/app/src/main/java/com/github/catvod/bean/Result.java > app/src/main/java/com/github/catvod/bean/Result.java
           curl -L https://raw.githubusercontent.com/lushunming/AndroidCatVodSpider/refs/heads/mine/app/src/main/java/com/github/catvod/spider/Ikanbot.java > app/src/main/java/com/github/catvod/spider/Ikanbot.java
           curl -L https://raw.githubusercontent.com/lushunming/AndroidCatVodSpider/refs/heads/mine/app/src/main/java/com/github/catvod/spider/TvDy.java > app/src/main/java/com/github/catvod/spider/TvDy.java
           sed -i 's#"福利", ##g' app/src/main/java/com/github/catvod/spider/TvDy.java
@@ -96,6 +95,7 @@ jobs:
           curl -L https://raw.githubusercontent.com/lushunming/AndroidCatVodSpider/refs/heads/mine/app/src/main/java/com/github/catvod/utils/ProxyVideo.java > app/src/main/java/com/github/catvod/utils/ProxyVideo.java
           curl -L https://raw.githubusercontent.com/lushunming/AndroidCatVodSpider/refs/heads/mine/app/src/main/java/com/github/catvod/utils/Json.java > app/src/main/java/com/github/catvod/utils/Json.java
           curl -L https://raw.githubusercontent.com/lushunming/AndroidCatVodSpider/refs/heads/mine/app/src/main/java/com/github/catvod/utils/Util.java > app/src/main/java/com/github/catvod/utils/Util.java
+          curl -L https://raw.githubusercontent.com/lushunming/AndroidCatVodSpider/refs/heads/mine/app/src/main/java/com/github/catvod/bean/Result.java > app/src/main/java/com/github/catvod/bean/Result.java
         )
         # (
         #   #增加zhixc爬虫
