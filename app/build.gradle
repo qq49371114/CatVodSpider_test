@@ -6,12 +6,12 @@ plugins {
 android {
     namespace 'com.github.catvod'
 
-    compileSdk 35
+    compileSdk 34
 
     defaultConfig {
         applicationId "com.github.catvod.demo"
         minSdk 16
-        targetSdk 35
+        targetSdk 33
     }
 
     buildTypes {
