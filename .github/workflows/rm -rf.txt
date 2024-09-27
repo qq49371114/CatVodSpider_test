@@ -1,0 +1,26 @@
+#删除垃圾爬虫
+#18+
+rm -rf app/src/main/java/com/github/catvod/spider/Doll.java
+rm -rf app/src/main/java/com/github/catvod/spider/Eighteen.java
+rm -rf app/src/main/java/com/github/catvod/spider/Hanime.java
+rm -rf app/src/main/java/com/github/catvod/spider/Jable.java
+rm -rf app/src/main/java/com/github/catvod/spider/JavDb.java
+rm -rf app/src/main/java/com/github/catvod/spider/Miss.java
+#体育
+rm -rf app/src/main/java/com/github/catvod/spider/Kanqiu.java
+#墙
+rm -rf app/src/main/java/com/github/catvod/spider/Star.java
+rm -rf app/src/main/java/com/github/catvod/spider/TvDy.java
+rm -rf app/src/main/java/com/github/catvod/spider/PTT.java
+#盘
+rm -rf app/src/main/java/com/github/catvod/spider/PanSearch.java
+rm -rf app/src/main/java/com/github/catvod/spider/PanSou.java
+rm -rf app/src/main/java/com/github/catvod/spider/UpYun.java
+rm -rf app/src/main/java/com/github/catvod/spider/Wogg.java
+rm -rf app/src/main/java/com/github/catvod/spider/XiaoZhiTiao.java
+rm -rf app/src/main/java/com/github/catvod/spider/YiSo.java
+rm -rf app/src/main/java/com/github/catvod/spider/Zhaozy.java
+#删除Doll残留
+sed -i "/Doll/d" app/src/main/java/com/github/catvod/debug/MainActivity.java
+#失效
+rm -rf app/src/main/java/com/github/catvod/spider/JustLive.java

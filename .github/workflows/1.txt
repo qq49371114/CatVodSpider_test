@@ -1,15 +1,210 @@
 18+
 JavDb.java
+Eighteen.java
+Doll.java
+Jable.java
+Miss.java
+Hanime.java
+DaGongRen.java(部分18+)
+
+盘
+PanSearch.java
+PanSou.java
+YiSo.java
+Wogg.java
+Zhaozy.java
 
 失效
 JustLive.java
+Zxzj.java
 
 墙
 PTT.java
+TvDy.java
+Star.java
 
 新增java来源
 https://github.com/xyzjhe/test_jar
+
 https://github.com/zwm001/JarMax
+
 https://github.com/zhixc/CatVodTVSpider/tree/main
+Anime1.java
+
 https://github.com/lushunming/AndroidCatVodSpider
+
 https://github.com/rgsngdha/tvjar_test/tree/master
+
+
+.
+│  build.gradle
+│  proguard-rules.pro
+│  
+└─src
+    └─main
+        │  AndroidManifest.xml
+        │  
+        ├─java
+        │  └─com
+        │      └─github
+        │          └─catvod
+        │              ├─api
+        │              │      AliYun.java
+        │              │      
+        │              ├─bean
+        │              │  │  Class.java
+        │              │  │  Filter.java
+        │              │  │  Result.java
+        │              │  │  Sub.java
+        │              │  │  Vod.java
+        │              │  │  
+        │              │  ├─ali
+        │              │  │      Biz.java
+        │              │  │      Cache.java
+        │              │  │      Code.java
+        │              │  │      Data.java
+        │              │  │      Download.java
+        │              │  │      Drive.java
+        │              │  │      Item.java
+        │              │  │      OAuth.java
+        │              │  │      Preview.java
+        │              │  │      Resp.java
+        │              │  │      Share.java
+        │              │  │      User.java
+        │              │  │      
+        │              │  ├─alist
+        │              │  │      Drive.java
+        │              │  │      Item.java
+        │              │  │      Login.java
+        │              │  │      Param.java
+        │              │  │      Sorter.java
+        │              │  │      
+        │              │  ├─bili
+        │              │  │      Dash.java
+        │              │  │      Data.java
+        │              │  │      Media.java
+        │              │  │      Owner.java
+        │              │  │      Page.java
+        │              │  │      Resp.java
+        │              │  │      Segment.java
+        │              │  │      Wbi.java
+        │              │  │      
+        │              │  ├─jianpian
+        │              │  │      Data.java
+        │              │  │      Detail.java
+        │              │  │      Resp.java
+        │              │  │      
+        │              │  ├─market
+        │              │  │      Data.java
+        │              │  │      Item.java
+        │              │  │      
+        │              │  ├─star
+        │              │  │      Card.java
+        │              │  │      Condition.java
+        │              │  │      Group.java
+        │              │  │      Info.java
+        │              │  │      Person.java
+        │              │  │      Query.java
+        │              │  │      Video.java
+        │              │  │      
+        │              │  ├─upyun
+        │              │  │      Data.java
+        │              │  │      Item.java
+        │              │  │      
+        │              │  ├─webdav
+        │              │  │      Drive.java
+        │              │  │      Sorter.java
+        │              │  │      
+        │              │  └─xpath
+        │              │          Rule.java
+        │              │          
+        │              ├─crawler
+        │              │      Spider.java
+        │              │      SpiderDebug.java
+        │              │      
+        │              ├─debug
+        │              │      MainActivity.java
+        │              │      
+        │              ├─js
+        │              │      Method.java
+        │              │      
+        │              ├─net
+        │              │      OkHttp.java
+        │              │      OkRequest.java
+        │              │      OkResult.java
+        │              │      SSLCompat.java
+        │              │      
+        │              ├─spider
+        │              │      Ali.java
+        │              │      AList.java
+        │              │      AppYsV2.java
+        │              │      Bili.java
+        │              │      Dm84.java
+        │              │      Doll.java
+        │              │      Douban.java
+        │              │      Eighteen.java
+        │              │      FirstAid.java
+        │              │      Hanime.java
+        │              │      Init.java
+        │              │      Jable.java
+        │              │      JavDb.java
+        │              │      Jianpian.java
+        │              │      JSDemo.java
+        │              │      JustLive.java
+        │              │      Kanqiu.java
+        │              │      Kugou.java
+        │              │      Local.java
+        │              │      Market.java
+        │              │      Miss.java
+        │              │      Notice.java
+        │              │      PanSearch.java
+        │              │      PanSou.java
+        │              │      Proxy.java
+        │              │      PTT.java
+        │              │      Push.java
+        │              │      Star.java
+        │              │      UpYun.java
+        │              │      WebDAV.java
+        │              │      Wogg.java
+        │              │      Xb6v.java
+        │              │      XiaoZhiTiao.java
+        │              │      XPath.java
+        │              │      XPathFilter.java
+        │              │      XPathMac.java
+        │              │      XPathMacFilter.java
+        │              │      YiSo.java
+        │              │      Ysj.java
+        │              │      Zhaozy.java
+        │              │      
+        │              ├─ui
+        │              │      ScrollTextView.java
+        │              │      
+        │              └─utils
+        │                      FileProvider.java
+        │                      FileUtil.java
+        │                      Image.java
+        │                      Json.java
+        │                      Notify.java
+        │                      Path.java
+        │                      Prefers.java
+        │                      ProxyVideo.java
+        │                      QRCode.java
+        │                      ResUtil.java
+        │                      Shell.java
+        │                      Util.java
+        │                      
+        └─res
+            ├─layout
+            │      activity_main.xml
+            │      
+            ├─mipmap-hdpi
+            │      ic_launcher.webp
+            │      
+            ├─mipmap-xhdpi
+            │      ic_launcher.webp
+            │      
+            ├─mipmap-xxhdpi
+            │      ic_launcher.webp
+            │      
+            └─values
+                    strings.xml
