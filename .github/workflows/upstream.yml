@@ -72,7 +72,6 @@ jobs:
           rm -rf app/src/main/java/com/github/catvod/spider/Kanqiu.java
           rm -rf app/src/main/java/com/github/catvod/spider/Star.java
           rm -rf app/src/main/java/com/github/catvod/spider/TvDy.java
-          rm -rf app/src/main/java/com/github/catvod/spider/PTT.java
           rm -rf app/src/main/java/com/github/catvod/spider/PanSearch.java
           rm -rf app/src/main/java/com/github/catvod/spider/PanSou.java
           rm -rf app/src/main/java/com/github/catvod/spider/UpYun.java
@@ -82,6 +81,8 @@ jobs:
           rm -rf app/src/main/java/com/github/catvod/spider/Zhaozy.java
           sed -i "/Doll/d" app/src/main/java/com/github/catvod/debug/MainActivity.java
           rm -rf app/src/main/java/com/github/catvod/spider/JustLive.java
+          sed -i 's/compileSdk 35/compileSdk 34/g' app/build.gradle
+          sed -i 's/targetSdk 35/ctargetSdk 33/g' app/build.gradle
         )
         # (
         #   #增加zhixc爬虫
