@@ -58,9 +58,7 @@ public class Result {
     public static String string(List<Class> classes, List<Vod> list, LinkedHashMap<String, List<Filter>> filters) {
         return Result.get().classes(classes).vod(list).filters(filters).string();
     }
-    public static String string(Integer page,Integer pagecount,Integer limit,Integer total,List<Vod> list){
-        return Result.get().page(page,pagecount,limit,total).vod(list).string();
-    }
+
     public static String string(List<Class> classes, List<Vod> list, JSONObject filters) {
         return Result.get().classes(classes).vod(list).filters(filters).string();
     }

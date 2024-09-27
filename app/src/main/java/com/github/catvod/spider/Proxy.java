@@ -23,8 +23,6 @@ public class Proxy extends Spider {
                 return WebDAV.vod(params);
             case "local":
                 return Local.proxy(params);
-            case "czspp":
-                return Czsapp.loadsub(params.get("url"));
             default:
                 return null;
         }
