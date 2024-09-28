@@ -86,7 +86,6 @@ jobs:
         )
         (
           #增加lushunming爬虫
-          curl -L https://raw.githubusercontent.com/lushunming/AndroidCatVodSpider/refs/heads/mine/app/src/main/java/com/github/catvod/spider/ChangZhang.java > app/src/main/java/com/github/catvod/spider/ChangZhang.java
           curl -L https://raw.githubusercontent.com/lushunming/AndroidCatVodSpider/refs/heads/mine/app/src/main/java/com/github/catvod/spider/Ikanbot.java > app/src/main/java/com/github/catvod/spider/Ikanbot.java
           curl -L https://raw.githubusercontent.com/lushunming/AndroidCatVodSpider/refs/heads/mine/app/src/main/java/com/github/catvod/spider/TvDy.java > app/src/main/java/com/github/catvod/spider/TvDy.java
           curl -L https://raw.githubusercontent.com/lushunming/AndroidCatVodSpider/refs/heads/mine/app/src/main/java/com/github/catvod/spider/XuanFeng.java > app/src/main/java/com/github/catvod/spider/XuanFeng.java
@@ -95,8 +94,6 @@ jobs:
           sed -i 's#"福利", ##g' app/src/main/java/com/github/catvod/spider/TvDy.java
           sed -i 's#"5", ##g' app/src/main/java/com/github/catvod/spider/TvDy.java
           sed -i 's/http:\/\/zxzj\.shop/https:\/\/www\.zxzja\.com/g' app/src/main/java/com/github/catvod/spider/Zxzj.java
-          sed -i 's/https:\/\/www\.czys\.pro/https:\/\/www\.czzy\.top/g' app/src/main/java/com/github/catvod/spider/ChangZhang.java
-          # curl -L https://raw.githubusercontent.com/lushunming/AndroidCatVodSpider/refs/heads/mine/app/src/main/java/com/github/catvod/spider/NCat.java > app/src/main/java/com/github/catvod/spider/NCat.java
           curl -L https://raw.githubusercontent.com/lushunming/AndroidCatVodSpider/refs/heads/mine/app/src/main/java/com/github/catvod/utils/ProxyVideo.java > app/src/main/java/com/github/catvod/utils/ProxyVideo.java
           curl -L https://raw.githubusercontent.com/lushunming/AndroidCatVodSpider/refs/heads/mine/app/src/main/java/com/github/catvod/utils/Json.java > app/src/main/java/com/github/catvod/utils/Json.java
           curl -L https://raw.githubusercontent.com/lushunming/AndroidCatVodSpider/refs/heads/mine/app/src/main/java/com/github/catvod/utils/Util.java > app/src/main/java/com/github/catvod/utils/Util.java
