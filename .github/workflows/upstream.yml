@@ -90,7 +90,6 @@ jobs:
           curl -L https://raw.githubusercontent.com/lushunming/AndroidCatVodSpider/refs/heads/mine/app/src/main/java/com/github/catvod/spider/TvDy.java > app/src/main/java/com/github/catvod/spider/TvDy.java
           curl -L https://raw.githubusercontent.com/lushunming/AndroidCatVodSpider/refs/heads/mine/app/src/main/java/com/github/catvod/spider/XuanFeng.java > app/src/main/java/com/github/catvod/spider/XuanFeng.java
           curl -L https://raw.githubusercontent.com/lushunming/AndroidCatVodSpider/refs/heads/mine/app/src/main/java/com/github/catvod/spider/Zxzj.java > app/src/main/java/com/github/catvod/spider/Zxzj.java
-          curl -L https://raw.githubusercontent.com/lushunming/AndroidCatVodSpider/refs/heads/mine/app/src/main/java/com/github/catvod/spider/Glod.kt > app/src/main/java/com/github/catvod/spider/Glod.kt
           sed -i 's#"福利", ##g' app/src/main/java/com/github/catvod/spider/TvDy.java
           sed -i 's#"5", ##g' app/src/main/java/com/github/catvod/spider/TvDy.java
           sed -i 's/http:\/\/zxzj\.shop/https:\/\/www\.zxzja\.com/g' app/src/main/java/com/github/catvod/spider/Zxzj.java
@@ -108,6 +107,7 @@ jobs:
           curl -L https://raw.githubusercontent.com/zhixc/CatVodTVSpider/main/app/src/main/java/com/github/catvod/spider/SP360.java > app/src/main/java/com/github/catvod/spider/SP360.java
           curl -L https://raw.githubusercontent.com/zhixc/CatVodTVSpider/main/app/src/main/java/com/github/catvod/spider/XingYiYing.java > app/src/main/java/com/github/catvod/spider/XingYiYing.java
           curl -L https://raw.githubusercontent.com/zhixc/CatVodTVSpider/main/app/src/main/java/com/github/catvod/spider/Xunlei8.java > app/src/main/java/com/github/catvod/spider/Xunlei8.java
+          curl -L https://raw.githubusercontent.com/zhixc/CatVodTVSpider/main/app/src/main/java/com/github/catvod/spider/Voflix.java > app/src/main/java/com/github/catvod/spider/Voflix.java
           mkdir app/src/main/java/com/github/catvod/utils/okhttp
           curl -L https://raw.githubusercontent.com/zhixc/CatVodTVSpider/main/app/src/main/java/com/github/catvod/utils/okhttp/OkHttpUtil.java > app/src/main/java/com/github/catvod/utils/okhttp/OkHttpUtil.java
           curl -L https://raw.githubusercontent.com/zhixc/CatVodTVSpider/main/app/src/main/java/com/github/catvod/utils/okhttp/OKCallBack.java > app/src/main/java/com/github/catvod/utils/okhttp/OKCallBack.java
@@ -122,7 +122,6 @@ jobs:
         )
         (
           #增加xyzjhe爬虫
-          curl -L https://raw.githubusercontent.com/xyzjhe/test_jar/main/app/src/main/java/com/github/catvod/spider/AppTT.java > app/src/main/java/com/github/catvod/spider/AppTT.java
           curl -L https://raw.githubusercontent.com/xyzjhe/test_jar/main/app/src/main/java/com/github/catvod/spider/Nongm.java > app/src/main/java/com/github/catvod/spider/Nongm.java
           curl -L https://raw.githubusercontent.com/xyzjhe/test_jar/main/app/src/main/java/com/github/catvod/spider/DyGang.java > app/src/main/java/com/github/catvod/spider/DyGang.java
           curl -L https://raw.githubusercontent.com/xyzjhe/test_jar/main/app/src/main/java/com/github/catvod/spider/Tudou.java > app/src/main/java/com/github/catvod/spider/Tudou.java
@@ -130,6 +129,7 @@ jobs:
         (
           #增加zwm001爬虫
           curl -L https://raw.githubusercontent.com/zwm001/JarMax/master/app/src/main/java/com/github/catvod/spider/Czsapp.java > app/src/main/java/com/github/catvod/spider/Czsapp.java
+          sed -i 's/localProxyUrl/getUrl/g' app/src/main/java/com/github/catvod/spider/Czsapp.java
           curl -L https://raw.githubusercontent.com/zwm001/JarMax/master/app/src/main/java/com/github/catvod/utils/AES.java > app/src/main/java/com/github/catvod/utils/AES.java
           curl -L https://raw.githubusercontent.com/zwm001/JarMax/master/app/src/main/java/com/github/catvod/utils/CBC.java > app/src/main/java/com/github/catvod/utils/CBC.java
           curl -L https://raw.githubusercontent.com/zwm001/JarMax/master/app/src/main/java/com/github/catvod/utils/gZip.java > app/src/main/java/com/github/catvod/utils/gZip.java

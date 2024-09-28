@@ -36,7 +36,6 @@ Ikanbot.java
 TvDy.java
 XuanFeng.java
 Zxzj.java
-Glod.kt
 ChangZhang.java
 ProxyVideo.java
 Json.java
