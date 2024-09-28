@@ -32,6 +32,16 @@ https://github.com/zhixc/CatVodTVSpider/tree/main
 Anime1.java
 
 https://github.com/lushunming/AndroidCatVodSpider
+Ikanbot.java
+TvDy.java
+XuanFeng.java
+Zxzj.java
+Glod.kt
+ChangZhang.java
+ProxyVideo.java
+Json.java
+Util.java
+Result.java
 
 https://github.com/rgsngdha/tvjar_test/tree/master
 
