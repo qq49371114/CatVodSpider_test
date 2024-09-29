@@ -40,7 +40,6 @@ Anime1.java
 MGTV.java
 IQIYI.java
 SP360.java
-Voflix.java
 PiaoHua.java
 Xunlei8.java
 OkHttpUtil.java
@@ -64,7 +63,11 @@ Util.java
 Result.java
 
 https://github.com/rgsngdha/tvjar_test/tree/master
+Btt.java
+Dadag.java
+Wangfei.java
 
+https://github.com/rgsngdha/tvjar_test/tree/master
 
 .
 │  build.gradle

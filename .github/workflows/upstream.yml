@@ -106,18 +106,17 @@ jobs:
           curl -L https://raw.githubusercontent.com/zhixc/CatVodTVSpider/main/app/src/main/java/com/github/catvod/spider/PiaoHua.java > app/src/main/java/com/github/catvod/spider/PiaoHua.java
           curl -L https://raw.githubusercontent.com/zhixc/CatVodTVSpider/main/app/src/main/java/com/github/catvod/spider/SP360.java > app/src/main/java/com/github/catvod/spider/SP360.java
           curl -L https://raw.githubusercontent.com/zhixc/CatVodTVSpider/main/app/src/main/java/com/github/catvod/spider/Xunlei8.java > app/src/main/java/com/github/catvod/spider/Xunlei8.java
-          curl -L https://raw.githubusercontent.com/zhixc/CatVodTVSpider/main/app/src/main/java/com/github/catvod/spider/Voflix.java > app/src/main/java/com/github/catvod/spider/Voflix.java
           mkdir app/src/main/java/com/github/catvod/utils/okhttp
           curl -L https://raw.githubusercontent.com/zhixc/CatVodTVSpider/main/app/src/main/java/com/github/catvod/utils/okhttp/OkHttpUtil.java > app/src/main/java/com/github/catvod/utils/okhttp/OkHttpUtil.java
           curl -L https://raw.githubusercontent.com/zhixc/CatVodTVSpider/main/app/src/main/java/com/github/catvod/utils/okhttp/OKCallBack.java > app/src/main/java/com/github/catvod/utils/okhttp/OKCallBack.java
           curl -L https://raw.githubusercontent.com/zhixc/CatVodTVSpider/main/app/src/main/java/com/github/catvod/utils/okhttp/SSLSocketFactoryCompat.java > app/src/main/java/com/github/catvod/utils/SSLSocketFactoryCompat.java
           curl -L https://raw.githubusercontent.com/zhixc/CatVodTVSpider/main/app/src/main/java/com/github/catvod/utils/okhttp/OKRequest.java > app/src/main/java/com/github/catvod/utils/okhttp/OKRequest.java
           mkdir app/src/main/java/com/github/catvod/parser
-          curl -L https://raw.githubusercontent.com/zhixc/CatVodTVSpider/main/app/src/main/java/com/github/catvod/parser/JsonParallel.java > app/src/main/java/com/github/catvod/parser/JsonParallel.java
-          curl -L https://raw.githubusercontent.com/zhixc/CatVodTVSpider/main/app/src/main/java/com/github/catvod/parser/JsonBasic.java > app/src/main/java/com/github/catvod/parser/JsonBasic.java
-          curl -L https://raw.githubusercontent.com/zhixc/CatVodTVSpider/main/app/src/main/java/com/github/catvod/parser/JsonSequence.java > app/src/main/java/com/github/catvod/parser/JsonSequence.java
-          curl -L https://raw.githubusercontent.com/zhixc/CatVodTVSpider/main/app/src/main/java/com/github/catvod/parser/MixDemo.java > app/src/main/java/com/github/catvod/parser/MixDemo.java
-          curl -L https://raw.githubusercontent.com/zhixc/CatVodTVSpider/main/app/src/main/java/com/github/catvod/parser/MixWeb.java > app/src/main/java/com/github/catvod/parser/MixWeb.java
+          # curl -L https://raw.githubusercontent.com/zhixc/CatVodTVSpider/main/app/src/main/java/com/github/catvod/parser/JsonParallel.java > app/src/main/java/com/github/catvod/parser/JsonParallel.java
+          # curl -L https://raw.githubusercontent.com/zhixc/CatVodTVSpider/main/app/src/main/java/com/github/catvod/parser/JsonBasic.java > app/src/main/java/com/github/catvod/parser/JsonBasic.java
+          # curl -L https://raw.githubusercontent.com/zhixc/CatVodTVSpider/main/app/src/main/java/com/github/catvod/parser/JsonSequence.java > app/src/main/java/com/github/catvod/parser/JsonSequence.java
+          # curl -L https://raw.githubusercontent.com/zhixc/CatVodTVSpider/main/app/src/main/java/com/github/catvod/parser/MixDemo.java > app/src/main/java/com/github/catvod/parser/MixDemo.java
+          # curl -L https://raw.githubusercontent.com/zhixc/CatVodTVSpider/main/app/src/main/java/com/github/catvod/parser/MixWeb.java > app/src/main/java/com/github/catvod/parser/MixWeb.java
         )
         (
           #增加xyzjhe爬虫
@@ -138,10 +137,8 @@ jobs:
           curl -L https://raw.githubusercontent.com/Mujinniao/SP/refs/heads/main/app/src/main/java/com/github/catvod/spider/Btt.java > app/src/main/java/com/github/catvod/spider/Btt.java
           sed -i 's/https:\/\/www\.bttwo\.net/https:\/\/www\.bttwo\.org/g' app/src/main/java/com/github/catvod/spider/Btt.java
           curl -L https://raw.githubusercontent.com/Mujinniao/SP/refs/heads/main/app/src/main/java/com/github/catvod/spider/Dadag.java > app/src/main/java/com/github/catvod/spider/Dadag.java
-          sed -i 's/http:\/\/www\.dadagui\.me/https:\/\/www\.dadagui\.tv/g' app/src/main/java/com/github/catvod/spider/Btt.java
-          curl -L https://raw.githubusercontent.com/Mujinniao/SP/refs/heads/main/app/src/main/java/com/github/catvod/spider/Panghu.java > app/src/main/java/com/github/catvod/spider/Panghu.java
+          sed -i 's/http:\/\/www\.dadagui\.me/https:\/\/www\.dadagui\.tv/g' app/src/main/java/com/github/catvod/spider/Dadag.java
           curl -L https://raw.githubusercontent.com/Mujinniao/SP/refs/heads/main/app/src/main/java/com/github/catvod/spider/Wangfei.java > app/src/main/java/com/github/catvod/spider/Wangfei.java
-          curl -L https://raw.githubusercontent.com/Mujinniao/SP/refs/heads/main/app/src/main/java/com/github/catvod/spider/kuyun77.java > app/src/main/java/com/github/catvod/spider/kuyun77.java
         )
         
     - name: Apply 应用
