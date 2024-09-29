@@ -25,18 +25,39 @@ Star.java
 
 新增java来源
 https://github.com/xyzjhe/test_jar
+Nongm.java
+DyGang.java
 
 https://github.com/zwm001/JarMax
+Czsapp.java
+AES.java
+CBC.java
+gZip.java
+Misc.java
 
 https://github.com/zhixc/CatVodTVSpider/tree/main
 Anime1.java
+MGTV.java
+IQIYI.java
+SP360.java
+Voflix.java
+PiaoHua.java
+Xunlei8.java
+OkHttpUtil.java
+OKCallBack.java
+SSLSocketFactoryCompat.java
+OKRequest.java
+JsonParallel.java
+JsonBasic.java
+JsonSequence.java
+MixDemo.java
+MixWeb.java
 
 https://github.com/lushunming/AndroidCatVodSpider
 Ikanbot.java
 TvDy.java
 XuanFeng.java
 Zxzj.java
-ChangZhang.java
 ProxyVideo.java
 Json.java
 Util.java
