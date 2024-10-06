@@ -46,28 +46,27 @@ OkHttpUtil.java
 OKCallBack.java
 SSLSocketFactoryCompat.java
 OKRequest.java
-JsonParallel.java
-JsonBasic.java
-JsonSequence.java
-MixDemo.java
-MixWeb.java
+# JsonParallel.java
+# JsonBasic.java
+# JsonSequence.java
+# MixDemo.java
+# MixWeb.java
 
 https://github.com/lushunming/AndroidCatVodSpider
 Ikanbot.java
 TvDy.java
 XuanFeng.java
 Zxzj.java
+Glod.kt
 ProxyVideo.java
 Json.java
 Util.java
 Result.java
 
-https://github.com/rgsngdha/tvjar_test/tree/master
+https://github.com/Mujinniao/SP
 Btt.java
 Dadag.java
 Wangfei.java
-
-https://github.com/rgsngdha/tvjar_test/tree/master
 
 .
 │  build.gradle

@@ -8,6 +8,8 @@ rm -rf app/src/main/java/com/github/catvod/spider/JavDb.java
 rm -rf app/src/main/java/com/github/catvod/spider/Miss.java
 #体育
 rm -rf app/src/main/java/com/github/catvod/spider/Kanqiu.java
+#音乐
+rm -rf app/src/main/java/com/github/catvod/spider/Kugou.java
 #墙
 rm -rf app/src/main/java/com/github/catvod/spider/Star.java
 rm -rf app/src/main/java/com/github/catvod/spider/TvDy.java
