@@ -27,7 +27,7 @@ import java.util.Map;
 public class Dadag extends Spider {
 
 
-    private static final String siteUrl = "http://www.dadagui.me";
+    private static final String siteUrl = "https://www.dadagui.tv";
 
 
     private HashMap<String, String> getHeaders() {
