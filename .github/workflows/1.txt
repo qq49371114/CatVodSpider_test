@@ -57,7 +57,6 @@ Ikanbot.java
 TvDy.java
 XuanFeng.java
 Zxzj.java
-Glod.kt
 ProxyVideo.java
 Json.java
 Util.java
