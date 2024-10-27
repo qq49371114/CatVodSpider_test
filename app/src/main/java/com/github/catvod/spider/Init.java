@@ -39,12 +39,10 @@ public class Init {
         return get().app;
     }
 
-        public static void init(Context context) {
+    public static void init(Context context) {
         get().app = ((Application) context);
-        SpiderDebug.log("自定义爬虫代码载入成功！");
-        Notify.show("资源来源于网络免费爬取。");
+        SpiderDebug.log("自定義爬蟲代碼載入成功！");
     }
-
 
     public static void execute(Runnable runnable) {
         get().executor.execute(runnable);
