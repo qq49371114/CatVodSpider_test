@@ -1,7 +1,6 @@
 plugins {
     id 'com.android.application'
     id 'ru.cleverpumpkin.proguard-dictionaries-generator'
-    id 'org.jetbrains.kotlin.android'
 }
 
 android {
