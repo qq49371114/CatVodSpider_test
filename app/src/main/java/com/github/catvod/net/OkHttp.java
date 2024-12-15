@@ -8,12 +8,17 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
+import okhttp3.Call;
 import okhttp3.Dns;
 import okhttp3.Headers;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+/**
+ * @author FongMi
+ * <a href="https://github.com/FongMi/CatVodSpider">CatVodSpider</a>
+ */
 public class OkHttp {
 
     public static final String POST = "POST";
@@ -86,15 +91,11 @@ public class OkHttp {
     }
 
     private static OkHttpClient.Builder getBuilder() {
-        return new OkHttpClient.Builder().dns(safeDns()).connectTimeout(30, TimeUnit.SECONDS).readTimeout(30, TimeUnit.SECONDS).writeTimeout(30, TimeUnit.SECONDS).hostnameVerifier((hostname, session) -> true).sslSocketFactory(new SSLCompat(), SSLCompat.TM);
+        return new OkHttpClient.Builder().dns(safeDns()).connectTimeout(15, TimeUnit.SECONDS).readTimeout(15, TimeUnit.SECONDS).writeTimeout(15, TimeUnit.SECONDS).hostnameVerifier((hostname, session) -> true).sslSocketFactory(new SSLCompat(), SSLCompat.TM);
     }
 
-    private static OkHttpClient client() {
-        try {
-            return Objects.requireNonNull(Spider.client());
-        } catch (Throwable e) {
-            return build();
-        }
+    public static OkHttpClient client() {
+        return build();
     }
 
     private static Dns safeDns() {
@@ -102,6 +103,19 @@ public class OkHttp {
             return Objects.requireNonNull(Spider.safeDns());
         } catch (Throwable e) {
             return Dns.SYSTEM;
+        }
+    }
+
+    public static void cancel(Object tag) {
+        for (Call call : client().dispatcher().queuedCalls()) {
+            if (tag.equals(call.request().tag())) {
+                call.cancel();
+            }
+        }
+        for (Call call : client().dispatcher().runningCalls()) {
+            if (tag.equals(call.request().tag())) {
+                call.cancel();
+            }
         }
     }
 }
