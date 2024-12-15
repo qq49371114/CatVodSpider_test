@@ -123,8 +123,8 @@ jobs:
         )
         (
           #增加xyzjhe爬虫
-          curl -L https://raw.githubusercontent.com/xyzjhe/test_jar/main/app/src/main/java/com/github/catvod/spider/Nongm.java > app/src/main/java/com/github/catvod/spider/Nongm.java
-          curl -L https://raw.githubusercontent.com/xyzjhe/test_jar/main/app/src/main/java/com/github/catvod/spider/DyGang.java > app/src/main/java/com/github/catvod/spider/DyGang.java
+          curl -L https://raw.githubusercontent.com/asxs123/CatVodSpider_test/refs/heads/main/app/src/main/java/com/github/catvod/spider/Nongm.java > app/src/main/java/com/github/catvod/spider/Nongm.java
+          curl -L https://raw.githubusercontent.com/asxs123/CatVodSpider_test/refs/heads/main/app/src/main/java/com/github/catvod/spider/DyGang.java > app/src/main/java/com/github/catvod/spider/DyGang.java
         )
         (
           #增加zwm001爬虫
