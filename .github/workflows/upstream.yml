@@ -91,6 +91,7 @@ jobs:
           sed -i "6i\    id 'org.jetbrains.kotlin.android' version '2.0.10' apply false" build.gradle
           curl -L https://raw.githubusercontent.com/asxs123/CatVodSpider_test/refs/heads/241215/app/src/main/java/com/github/catvod/spider/Douban.java > app/src/main/java/com/github/catvod/spider/Douban.java
           curl -L https://raw.githubusercontent.com/asxs123/CatVodSpider_test/refs/heads/241215/app/src/main/java/com/github/catvod/spider/AppYsV2.java > app/src/main/java/com/github/catvod/spider/AppYsV2.java
+          curl -L https://raw.githubusercontent.com/asxs123/CatVodSpider_test/refs/heads/241215/app/src/main/java/com/github/catvod/spider/FirstAid.java > app/src/main/java/com/github/catvod/spider/FirstAid.java
         )
         (
           #增加lushunming爬虫
